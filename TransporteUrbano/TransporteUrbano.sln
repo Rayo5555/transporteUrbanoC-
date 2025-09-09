@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.35130.168
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransporteUrbano", "TransporteUrbano\TransporteUrbano.csproj", "{D7E22FCD-D12B-4AA7-A603-D47DEB1CD2BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestTransporte", "..\TestTransporte\TestTransporte\TestTransporte.csproj", "{F44AF89C-1BB9-477D-90F0-7BBE8E89DDB4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D7E22FCD-D12B-4AA7-A603-D47DEB1CD2BB} = {D7E22FCD-D12B-4AA7-A603-D47DEB1CD2BB}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D7E22FCD-D12B-4AA7-A603-D47DEB1CD2BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7E22FCD-D12B-4AA7-A603-D47DEB1CD2BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7E22FCD-D12B-4AA7-A603-D47DEB1CD2BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7E22FCD-D12B-4AA7-A603-D47DEB1CD2BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F44AF89C-1BB9-477D-90F0-7BBE8E89DDB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F44AF89C-1BB9-477D-90F0-7BBE8E89DDB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F44AF89C-1BB9-477D-90F0-7BBE8E89DDB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F44AF89C-1BB9-477D-90F0-7BBE8E89DDB4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {672EAEDF-0444-4495-9FD6-6BDC82551755}
+	EndGlobalSection
+EndGlobal

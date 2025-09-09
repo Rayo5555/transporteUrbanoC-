@@ -1,0 +1,5 @@
+C:\Users\Punto Digital\source\repos\TestTransporte\TestTransporte\obj\Debug\net5.0\TestTransporte.csproj.AssemblyReference.cache
+C:\Users\Punto Digital\source\repos\TestTransporte\TestTransporte\obj\Debug\net5.0\TestTransporte.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Punto Digital\source\repos\TestTransporte\TestTransporte\obj\Debug\net5.0\TestTransporte.AssemblyInfoInputs.cache
+C:\Users\Punto Digital\source\repos\TestTransporte\TestTransporte\obj\Debug\net5.0\TestTransporte.AssemblyInfo.cs
+C:\Users\Punto Digital\source\repos\TestTransporte\TestTransporte\obj\Debug\net5.0\TestTransporte.csproj.CoreCompileInputs.cache

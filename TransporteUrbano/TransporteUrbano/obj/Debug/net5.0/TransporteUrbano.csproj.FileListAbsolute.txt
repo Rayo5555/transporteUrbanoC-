@@ -1,0 +1,5 @@
+C:\Users\Punto Digital\source\repos\TransporteUrbano\TransporteUrbano\obj\Debug\net5.0\TransporteUrbano.csproj.AssemblyReference.cache
+C:\Users\Punto Digital\source\repos\TransporteUrbano\TransporteUrbano\obj\Debug\net5.0\TransporteUrbano.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Punto Digital\source\repos\TransporteUrbano\TransporteUrbano\obj\Debug\net5.0\TransporteUrbano.AssemblyInfoInputs.cache
+C:\Users\Punto Digital\source\repos\TransporteUrbano\TransporteUrbano\obj\Debug\net5.0\TransporteUrbano.AssemblyInfo.cs
+C:\Users\Punto Digital\source\repos\TransporteUrbano\TransporteUrbano\obj\Debug\net5.0\TransporteUrbano.csproj.CoreCompileInputs.cache
