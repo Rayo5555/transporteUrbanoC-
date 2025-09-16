@@ -28,7 +28,7 @@ jobs:
       run: dotnet restore ./TransporteUrbano/TransporteUrbano.sln
 
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore ./TransporteUrbano/TransporteUrbano.sln
 
     - name: Run tests with coverage
       run: dotnet test --no-build --collect:"XPlat Code Coverage"
