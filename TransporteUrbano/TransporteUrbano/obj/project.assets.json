@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Punto Digital\\source\\repos\\TransporteUrbano\\TransporteUrbano\\TransporteUrbano.csproj",
+      "projectUniqueName": "C:\\Users\\Punto Digital\\Documents\\GitHub\\transporteUrbanoC-\\TransporteUrbano\\TransporteUrbano\\TransporteUrbano.csproj",
       "projectName": "TransporteUrbano",
-      "projectPath": "C:\\Users\\Punto Digital\\source\\repos\\TransporteUrbano\\TransporteUrbano\\TransporteUrbano.csproj",
+      "projectPath": "C:\\Users\\Punto Digital\\Documents\\GitHub\\transporteUrbanoC-\\TransporteUrbano\\TransporteUrbano\\TransporteUrbano.csproj",
       "packagesPath": "C:\\Users\\Punto Digital\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Punto Digital\\source\\repos\\TransporteUrbano\\TransporteUrbano\\obj\\",
+      "outputPath": "C:\\Users\\Punto Digital\\Documents\\GitHub\\transporteUrbanoC-\\TransporteUrbano\\TransporteUrbano\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Punto Digital\\AppData\\Roaming\\NuGet\\NuGet.Config",
