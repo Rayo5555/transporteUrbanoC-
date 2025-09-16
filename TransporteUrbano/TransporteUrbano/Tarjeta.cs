@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TransporteUrbano
 {
-    class Tarjeta
+    public class Tarjeta
     {
         public int saldo, id;
 

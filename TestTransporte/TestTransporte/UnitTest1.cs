@@ -8,8 +8,8 @@ namespace TestTransporte
         [SetUp]
         public void Setup()
         {
-            TrasnporteUrbano.Colectivo colectivo145-133 = new TransporteUrbano.Colectivo("145 133")
-            TransporteUrbano.Colectivo colectivo132 = new TransporteUrbano.Colectivo("132")
+            TransporteUrbano.Colectivo colectivo145_133 = new TransporteUrbano.Colectivo("145 133");
+            TransporteUrbano.Colectivo colectivo132 = new TransporteUrbano.Colectivo("132");
             
         }
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
     
 namespace TransporteUrbano
 {   
-    class Colectivo
+    public class Colectivo
     {
         public string linea;
         private int boletosEntregados = 0;

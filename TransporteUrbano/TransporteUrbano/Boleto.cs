@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TransporteUrbano
 {
-    class Boleto
+    public class Boleto
     {
         public int costo;
         public string codigo;
