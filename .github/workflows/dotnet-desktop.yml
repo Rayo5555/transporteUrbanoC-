@@ -31,7 +31,7 @@ jobs:
       run: dotnet build --no-restore ./TransporteUrbano/TransporteUrbano.sln
 
     - name: Run tests with coverage
-      run: dotnet test --no-build --collect:"XPlat Code Coverage"
+      run: dotnet test --no-build --collect:"XPlat Code Coverage" ./TransporteUrbano/TransporteUrbano.sln
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v5
