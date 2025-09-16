@@ -10,7 +10,7 @@ namespace TransporteUrbano
     {
         public int saldo, id;
 
-        public Tarjeta(int saldo=0, int id)
+        public Tarjeta(int id, int saldo=0)
         {
             this.saldo =saldo;
             this.id = id;

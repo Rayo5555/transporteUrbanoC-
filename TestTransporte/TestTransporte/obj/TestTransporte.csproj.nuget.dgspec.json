@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Punto Digital\\source\\repos\\TestTransporte\\TestTransporte\\TestTransporte.csproj": {}
+    "C:\\Users\\Punto Digital\\Documents\\GitHub\\transporteUrbanoC-\\TestTransporte\\TestTransporte\\TestTransporte.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Punto Digital\\source\\repos\\TestTransporte\\TestTransporte\\TestTransporte.csproj": {
+    "C:\\Users\\Punto Digital\\Documents\\GitHub\\transporteUrbanoC-\\TestTransporte\\TestTransporte\\TestTransporte.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Punto Digital\\source\\repos\\TestTransporte\\TestTransporte\\TestTransporte.csproj",
+        "projectUniqueName": "C:\\Users\\Punto Digital\\Documents\\GitHub\\transporteUrbanoC-\\TestTransporte\\TestTransporte\\TestTransporte.csproj",
         "projectName": "TestTransporte",
-        "projectPath": "C:\\Users\\Punto Digital\\source\\repos\\TestTransporte\\TestTransporte\\TestTransporte.csproj",
+        "projectPath": "C:\\Users\\Punto Digital\\Documents\\GitHub\\transporteUrbanoC-\\TestTransporte\\TestTransporte\\TestTransporte.csproj",
         "packagesPath": "C:\\Users\\Punto Digital\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Punto Digital\\source\\repos\\TestTransporte\\TestTransporte\\obj\\",
+        "outputPath": "C:\\Users\\Punto Digital\\Documents\\GitHub\\transporteUrbanoC-\\TestTransporte\\TestTransporte\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Punto Digital\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -28,8 +28,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\Users\\Punto Digital\\source\\repos\\TransporteUrbano\\TransporteUrbano\\TransporteUrbano.csproj": {
-                "projectPath": "C:\\Users\\Punto Digital\\source\\repos\\TransporteUrbano\\TransporteUrbano\\TransporteUrbano.csproj"
+              "C:\\Users\\Punto Digital\\Documents\\GitHub\\transporteUrbanoC-\\TransporteUrbano\\TransporteUrbano\\TransporteUrbano.csproj": {
+                "projectPath": "C:\\Users\\Punto Digital\\Documents\\GitHub\\transporteUrbanoC-\\TransporteUrbano\\TransporteUrbano\\TransporteUrbano.csproj"
               }
             }
           }
@@ -80,14 +80,14 @@
         }
       }
     },
-    "C:\\Users\\Punto Digital\\source\\repos\\TransporteUrbano\\TransporteUrbano\\TransporteUrbano.csproj": {
+    "C:\\Users\\Punto Digital\\Documents\\GitHub\\transporteUrbanoC-\\TransporteUrbano\\TransporteUrbano\\TransporteUrbano.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Punto Digital\\source\\repos\\TransporteUrbano\\TransporteUrbano\\TransporteUrbano.csproj",
+        "projectUniqueName": "C:\\Users\\Punto Digital\\Documents\\GitHub\\transporteUrbanoC-\\TransporteUrbano\\TransporteUrbano\\TransporteUrbano.csproj",
         "projectName": "TransporteUrbano",
-        "projectPath": "C:\\Users\\Punto Digital\\source\\repos\\TransporteUrbano\\TransporteUrbano\\TransporteUrbano.csproj",
+        "projectPath": "C:\\Users\\Punto Digital\\Documents\\GitHub\\transporteUrbanoC-\\TransporteUrbano\\TransporteUrbano\\TransporteUrbano.csproj",
         "packagesPath": "C:\\Users\\Punto Digital\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Punto Digital\\source\\repos\\TransporteUrbano\\TransporteUrbano\\obj\\",
+        "outputPath": "C:\\Users\\Punto Digital\\Documents\\GitHub\\transporteUrbanoC-\\TransporteUrbano\\TransporteUrbano\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Punto Digital\\AppData\\Roaming\\NuGet\\NuGet.Config",

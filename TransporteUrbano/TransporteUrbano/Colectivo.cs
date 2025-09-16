@@ -25,8 +25,8 @@ namespace TransporteUrbano
                 tarjeta.saldo -= 1580;
                 boletosEntregados++;
                 string code = linea + boletosEntregados;
-                Boleto boleto = new Boleto(1580, code);
-                return boleto
+                Boleto boleto = new Boleto(code, 1580);
+                return boleto;
             }
         }
     }

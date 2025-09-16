@@ -10,7 +10,7 @@ namespace TransporteUrbano
     {
         public int costo;
         public string codigo;
-        public Boleto(int costo=1580, string codigo)
+        public Boleto(string codigo, int costo=1580)
         {
             this.costo = costo;
             this.codigo = codigo;
