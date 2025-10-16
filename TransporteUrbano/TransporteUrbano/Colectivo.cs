@@ -17,16 +17,21 @@ namespace TransporteUrbano
     
         public Boleto pagarCon(Tarjeta tarjeta)
         {
-            if (tarjeta.saldo < 1580){
-                Console.WriteLine("No hay saldo suficiente");
-                return null;
-            }
-            else{
-                tarjeta.saldo -= 1580;
+            int costoBoleto = 1580; // Costo base del boleto
+
+            // Intentar realizar el pago usando la lógica de la tarjeta
+            int resultadoPago = tarjeta.pagar(costoBoleto);
+
+            if (resultadoPago == 1) // Pago exitoso
+            {
                 boletosEntregados++;
-                string code = linea + boletosEntregados;
-                Boleto boleto = new Boleto(code, 1580);
-                return boleto;
+                string codigoBoleto = linea + boletosEntregados;
+                return new Boleto(codigoBoleto, costoBoleto);
+            }
+            else
+            {
+                Console.WriteLine("No se pudo realizar el pago. Verifique su saldo o tipo de tarjeta.");
+                return null;
             }
         }
     }
