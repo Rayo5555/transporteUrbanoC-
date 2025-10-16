@@ -38,5 +38,15 @@ namespace TransporteUrbano
                 return 0;
             }
         }
+        public virtual int pagar(int costo)
+        {
+            if (saldo < costo)
+            {
+                Console.WriteLine("No hay saldo suficiente");
+                return 0;
+            }
+            saldo -= costo;
+            return 1;
+        }
     }
 }
