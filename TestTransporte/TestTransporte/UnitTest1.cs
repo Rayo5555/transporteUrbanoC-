@@ -49,6 +49,9 @@ namespace TestTransporte
             Assert.IsNotNull(boleto, "Se debería permitir un viaje plus.");
             Assert.AreEqual(-1200, tarjeta1.saldo, "El saldo debería reflejar el viaje plus como negativo hasta un máximo de 1200.");
 
+            tarjeta1.cargar(2000); // Cargar saldo para cubrir el negativo
+            Assert.AreEqual(800, tarjeta1.saldo, "El saldo debería ser 800 después de cargar 2000 para cubrir el viaje plus.");
+
 
         }
     }
