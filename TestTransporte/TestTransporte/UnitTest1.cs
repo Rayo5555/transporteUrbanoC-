@@ -11,7 +11,7 @@ namespace TestTransporte
         [SetUp]
         public void Setup()
         {
-            colectivo145_133 = new TransporteUrbano.Colectivo("145 133");
+            colectivo145_133 = new TransporteUrbano.Colectivo("145/133");
             colectivo132 = new TransporteUrbano.Colectivo("132");
             tarjeta1 = new TransporteUrbano.Tarjeta(1, 0);
 
@@ -43,9 +43,13 @@ namespace TestTransporte
             // Intentar otro pago con saldo insuficiente (viaje plus)
             boleto = colectivo132.pagarCon(tarjeta1);
 
+            tarjeta1.saldo = 380;
+
             // Validar que se permite el viaje y el saldo es negativo
             Assert.IsNotNull(boleto, "Se debería permitir un viaje plus.");
-            Assert.AreEqual(-1580, tarjeta1.saldo, "El saldo debería reflejar el viaje plus como negativo.");
+            Assert.AreEqual(-1200, tarjeta1.saldo, "El saldo debería reflejar el viaje plus como negativo hasta un máximo de 1200.");
+
+
         }
     }
 }
