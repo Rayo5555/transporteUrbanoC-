@@ -40,10 +40,10 @@ namespace TestTransporte
             Assert.IsNotNull(boleto, "Se debería generar un boleto si hay saldo suficiente.");
             Assert.AreEqual(0, tarjeta1.saldo, "El saldo debería ser 0 después de un viaje.");
 
-            // Intentar otro pago con saldo insuficiente (viaje plus)
+            // Intentar otro pago con saldo suficiente pero con viaje plus
+            tarjeta1.saldo = 380;
             boleto = colectivo132.pagarCon(tarjeta1);
 
-            tarjeta1.saldo = 380;
 
             // Validar que se permite el viaje y el saldo es negativo
             Assert.IsNotNull(boleto, "Se debería permitir un viaje plus.");
