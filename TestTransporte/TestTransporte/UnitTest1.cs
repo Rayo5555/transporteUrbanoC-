@@ -16,7 +16,7 @@ namespace TestTransporte
         }
 
         [Test]
-        public void Test1()
+        public void NoPermitirSaldoMenorAlPermitido()
         {
         }
     }
