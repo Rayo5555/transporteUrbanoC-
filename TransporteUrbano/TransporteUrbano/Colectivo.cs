@@ -19,12 +19,8 @@ namespace TransporteUrbano
         {
             int costoBoleto = 1580; // Costo base del boleto
 
-            // Intentar realizar el pago usando la lógica de la tarjeta
-            int resultadoPago = tarjeta.pagar(costoBoleto);
-            if (tarjeta.saldo < 0)
-            {
-                Console.WriteLine("Saldo negativo, viaje plus utilizado.");
-            }
+            int resultadoPago = tarjeta.pagar(costoBoleto); //cheequeamos si se puede hacer el pago o no
+
             if (resultadoPago == 1) // Pago exitoso
             {
                 boletosEntregados++;
