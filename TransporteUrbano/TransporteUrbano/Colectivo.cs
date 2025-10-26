@@ -19,7 +19,8 @@ namespace TransporteUrbano
         {
             int costoBoleto = 1580; // Costo base del boleto
 
-            int resultadoPago = tarjeta.pagar(costoBoleto); //cheequeamos si se puede hacer el pago o no
+            // Intentar realizar el pago usando la lógica de la tarjeta
+            int resultadoPago = tarjeta.pagar(costoBoleto);
 
             if (resultadoPago == 1) // Pago exitoso
             {
