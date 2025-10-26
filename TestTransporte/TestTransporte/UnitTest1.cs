@@ -25,11 +25,11 @@ namespace TestTransporte
             // Intentar pagar un boleto
             var boleto = colectivo132.pagarCon(tarjeta);
 
-            // Validar que el boleto se generó y el saldo se descontó correctamente
-            Assert.IsNotNull(boleto, "El boleto debería generarse correctamente.");
-            Assert.AreEqual(1210, tarjeta.saldo, "El saldo debería descontarse al 50% del costo del boleto (790).");
+            // Validar que el boleto se generï¿½ y el saldo se descontï¿½ correctamente
+            Assert.IsNotNull(boleto, "El boleto deberï¿½a generarse correctamente.");
+            Assert.AreEqual(1210, tarjeta.saldo, "El saldo deberï¿½a descontarse al 50% del costo del boleto (790).");
             tarjeta.cargar(3000);
-            Assert.AreEqual(4210, tarjeta.saldo, "El saldo debería ser 4210 después de cargar 3000 adicionales.");
+            Assert.AreEqual(4210, tarjeta.saldo, "El saldo deberï¿½a ser 4210 despuï¿½s de cargar 3000 adicionales.");
         }
 
         [Test]
@@ -41,13 +41,13 @@ namespace TestTransporte
             // Intentar pagar un boleto
             var boleto = colectivo145_133.pagarCon(tarjeta);
 
-            // Validar que el boleto se generó y no se descontó saldo
-            Assert.IsNotNull(boleto, "El boleto debería generarse correctamente.");
-            Assert.AreEqual(0, tarjeta.saldo, "El saldo debería permanecer en 0 ya que el viaje es gratuito.");
+            // Validar que el boleto se generï¿½ y no se descontï¿½ saldo
+            Assert.IsNotNull(boleto, "El boleto deberï¿½a generarse correctamente.");
+            Assert.AreEqual(0, tarjeta.saldo, "El saldo deberï¿½a permanecer en 0 ya que el viaje es gratuito.");
             tarjeta.cargar(2000);
             var boleto2 = colectivo145_133.pagarCon(tarjeta);
-            Assert.IsNotNull(boleto2, "El boleto debería generarse correctamente incluso después de cargar saldo.");
-            Assert.AreEqual(2000, tarjeta.saldo, "El saldo debería permanecer en 2000 ya que el viaje es gratuito.");
+            Assert.IsNotNull(boleto2, "El boleto deberï¿½a generarse correctamente incluso despuï¿½s de cargar saldo.");
+            Assert.AreEqual(2000, tarjeta.saldo, "El saldo deberï¿½a permanecer en 2000 ya que el viaje es gratuito.");
         }
 
         [Test]
@@ -59,13 +59,14 @@ namespace TestTransporte
             // Intentar pagar un boleto
             var boleto = colectivo132.pagarCon(tarjeta);
 
-            // Validar que el boleto se generó y no se descontó saldo
-            Assert.IsNotNull(boleto, "El boleto debería generarse correctamente.");
-            Assert.AreEqual(0, tarjeta.saldo, "El saldo debería permanecer en 0 ya que el viaje es gratuito.");
+            // Validar que el boleto se generï¿½ y no se descontï¿½ saldo
+            Assert.IsNotNull(boleto, "El boleto deberï¿½a generarse correctamente.");
+            Assert.AreEqual(0, tarjeta.saldo, "El saldo deberï¿½a permanecer en 0 ya que el viaje es gratuito.");
             var tarjeta2 = new FranquiciaCompleta(3, -1000);
             var boleto2 = colectivo132.pagarCon(tarjeta2);
-            Assert.IsNotNull(boleto2, "El boleto debería generarse correctamente incluso con saldo negativo.");
-            Assert.AreEqual(-1000, tarjeta2.saldo, "El saldo debería permanecer en -1000 ya que el viaje es gratuito.");
+            Assert.IsNotNull(boleto2, "El boleto deberï¿½a generarse correctamente incluso con saldo negativo.");
+            Assert.AreEqual(-1000, tarjeta2.saldo, "El saldo deberï¿½a permanecer en -1000 ya que el viaje es gratuito.");
         }
     }
+
 }

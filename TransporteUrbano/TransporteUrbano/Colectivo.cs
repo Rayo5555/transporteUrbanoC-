@@ -14,7 +14,7 @@ namespace TransporteUrbano
         {
             this.linea = linea;
         }
-    
+
         public Boleto pagarCon(Tarjeta tarjeta)
         {
             int costoBoleto = 1580; // Costo base del boleto
