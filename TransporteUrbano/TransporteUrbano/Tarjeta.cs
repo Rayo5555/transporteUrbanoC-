@@ -59,19 +59,25 @@ namespace TransporteUrbano
         public override int pagar(int costo)
         {
             int costoReducido = costo / 2; // 50% de descuento
-            return base.pagar(costoReducido);
+            if (saldo < costoReducido)
+            {
+                Console.WriteLine("No hay saldo suficiente");
+                return 0;
+            }
+            saldo -= costoReducido;
+            return 1;
         }
     }
 
     // Franquicia completa: Boleto gratuito estudiantil
     public class BoletoGratuitoEstudiantil : Tarjeta
     {
-        public BoletoGratuitoEstudiantil(int id) : base(id, 0) { }
+        public BoletoGratuitoEstudiantil(int id, int saldo=0) : base(id, saldo) { }
 
         public override int pagar(int costo)
         {
             // Siempre permite el viaje sin costo
-            Console.WriteLine("Viaje gratuito otorgado.");
+            Console.WriteLine("Viaje gratuito por estudiante.");
             return 1;
         }
     }
@@ -84,7 +90,7 @@ namespace TransporteUrbano
         public override int pagar(int costo)
         {
             // Siempre permite el viaje sin costo
-            Console.WriteLine("Viaje gratuito otorgado.");
+            Console.WriteLine("Viaje gratuito.");
             return 1;
         }
     }
