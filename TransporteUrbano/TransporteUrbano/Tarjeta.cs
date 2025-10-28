@@ -8,29 +8,39 @@ namespace TransporteUrbano
 {
     public class Tarjeta
     {
-        public int saldo, id;
+        public int saldo, id, pendienteDeAcreditar;
 
         public Tarjeta(int id, int saldo = 0)
         {
-            this.saldo = saldo;
+            if(saldo > 56000){
+                this.saldo = 56000;
+                pendienteDeAcreditar = saldo - 56000;
+            }
+            else{
+                this.saldo = saldo;
+                pendienteDeAcreditar = 0;
+            }
             this.id = id;
         }
-
+        public void acreditarCarga()
+        {
+            if((saldo+pendienteDeAcreditar) > 56000)
+            {
+                pendienteDeAcreditar = (saldo + pendienteDeAcreditar) - 56000;
+                saldo = 56000;
+            }
+            else {
+                saldo = saldo + pendienteDeAcreditar;
+                pendienteDeAcreditar = 0;
+            }
+        }
         public int cargar(int money)
         {
             if (money == 2000 || money == 3000 || money == 4000 || money == 5000 || money == 8000 || money == 10000 || money == 15000 || money == 20000 || money == 25000 || money == 30000)
             {
-                if ((saldo + money) >= 40000)
-                {
-                    Console.WriteLine("Supera el limite permitido de saldo");
-                    return 2;
-                }
-                else
-                {
-                    saldo += money;
-                    Console.WriteLine("Se ha cargado saldo correctamente, ahora tiene ", saldo);
-                    return 1;
-                }
+                pendienteDeAcreditar += money;
+                acreditarCarga();
+                return 1;
             }
             else
             {
@@ -47,6 +57,7 @@ namespace TransporteUrbano
                 return 0;
             }
             saldo -= costo;
+            acreditarCarga();
             return 1;
         }
     }
@@ -65,6 +76,7 @@ namespace TransporteUrbano
                 return 0;
             }
             saldo -= costoReducido;
+            acreditarCarga();
             return 1;
         }
     }
