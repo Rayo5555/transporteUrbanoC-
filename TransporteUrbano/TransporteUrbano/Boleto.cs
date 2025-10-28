@@ -8,8 +8,9 @@ namespace TransporteUrbano
 {
     public class Boleto
     {
-        public int costo;
-        public string codigo;
+        public DateTime fecha;
+        public int costo, saldo, id;
+        public string codigo, linea;
         public Boleto(string codigo, int costo=1580)
         {
             this.costo = costo;
