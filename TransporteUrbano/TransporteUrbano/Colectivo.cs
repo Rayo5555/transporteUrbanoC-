@@ -34,7 +34,7 @@ namespace TransporteUrbano
                 int costoRealBoleto = saldoInicial - saldoRestante;
                 int totalAbonado = saldoInicial >= costoRealBoleto ? costoRealBoleto : saldoInicial;
 
-                return new Boleto(codigoBoleto, saldoRestante, idTajeta, lineaBoleto, tipoTarjeta, costoRealBoleto, totalAbonado);
+                return new Boleto(codigoBoleto, saldoRestante, idTajeta, lineaBoleto, tipoTarjeta, totalAbonado, costoRealBoleto);
             }
             else
             {
