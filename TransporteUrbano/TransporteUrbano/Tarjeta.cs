@@ -41,7 +41,7 @@ namespace TransporteUrbano
 
         public virtual int pagar(int costo)
         {
-            if (saldo < costo)
+            if ((saldo+1200) < costo)
             {
                 Console.WriteLine("No hay saldo suficiente");
                 return 0;
@@ -59,7 +59,7 @@ namespace TransporteUrbano
         public override int pagar(int costo)
         {
             int costoReducido = costo / 2; // 50% de descuento
-            if (saldo < costoReducido)
+            if ((saldo+1200) < costoReducido)
             {
                 Console.WriteLine("No hay saldo suficiente");
                 return 0;
