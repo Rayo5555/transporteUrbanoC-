@@ -54,7 +54,7 @@ namespace TransporteUrbano
 
         public virtual int pagar(int costo)
         {
-            if (saldo < costo)
+            if ((saldo + 1200) < costo)
             {
                 Console.WriteLine("No hay saldo suficiente");
                 return 0;
@@ -68,32 +68,48 @@ namespace TransporteUrbano
     // Franquicia parcial: Medio boleto estudiantil
     public class MedioBoletoEstudiantil : Tarjeta
     {
-        public MedioBoletoEstudiantil(int id, int saldo = 0) : base(id, saldo) { }
-        DateTime ultimoPago = new DateTime();
+        private int usos;
+        public DateTime ultimaFechaUso = DateTime.Now.Date;
+        public MedioBoletoEstudiantil(int id, int saldo = 0, int usos = 0, DateTime ultimaFechaUso = new DateTime()) : base(id, saldo) {
+            this.usos = usos; //campo de usos para controlar los viajes con medio boleto
+            this.ultimaFechaUso = ultimaFechaUso;
+        }
         public override int pagar(int costo)
         {
-            if ((DateTime.Now - ultimoPago).TotalMinutes > 5)
+            if ((DateTime.Now - ultimaFechaUso).TotalDays >= 1)
             {
-                ultimoPago = DateTime.Now;
-                int costoReducido = costo / 2; // 50% de descuento
-                if (saldo < costoReducido)
-                {
-                    Console.WriteLine("No hay saldo suficiente");
-                    return 0;
-                }
-                saldo -= costoReducido;
-                acreditarCarga();
-                return 1;
+                usos = 0; // Reiniciar usos si ha pasado un día
             }
-            else
+            if (usos < 2) { 
+                if ((DateTime.Now - ultimaFechaUso).TotalMinutes > 5)
+                {
+                    ultimaFechaUso = DateTime.Now;
+                    int costoReducido = costo / 2; // 50% de descuento
+                    if ((saldo + 1200) < costoReducido)
+                    {
+                        Console.WriteLine("No hay saldo suficiente");
+                        return 0;
+                    }
+                    saldo -= costoReducido;
+                    usos += 1;
+                    acreditarCarga();
+                    return 1;
+                }
+                else
+                {
+                   Console.WriteLine("No pasaron 5 minutos desde su último uso, prueba más tarde");
+                   return 0;
+                }
+            } else
             {
-                if (saldo < costo)
+                if ((saldo + 1200) < costo)
                 {
                     Console.WriteLine("No hay saldo suficiente");
                     return 0;
                 }
                 saldo -= costo;
                 acreditarCarga();
+                Console.WriteLine("Viaje normal, se han agotado los medios boletos disponibles." + usos);
                 return 1;
             }
         }
@@ -102,24 +118,40 @@ namespace TransporteUrbano
     // Franquicia completa: Boleto gratuito estudiantil
     public class BoletoGratuitoEstudiantil : Tarjeta
     {
-        public BoletoGratuitoEstudiantil(int id, int saldo = 0) : base(id, saldo) { }
-        public int usos = 2;
+        private int usos;
+        public DateTime ultimaFechaUso = DateTime.Now.Date; // Nueva variable para rastrear la última fecha de uso
+
+        public BoletoGratuitoEstudiantil(int id, int saldo = 0, int usos = 0, DateTime ultimaFechaUso = new DateTime()) : base(id, saldo)
+        {
+            this.usos = usos;
+            this.ultimaFechaUso = ultimaFechaUso;
+        }
+
         public override int pagar(int costo)
         {
-            if (usos > 0)
+            // Verificar si ha pasado un día desde el último uso
+            if ((DateTime.Now - ultimaFechaUso).TotalDays >= 1)
             {
-                // Siempre permite el viaje sin costo
+                usos = 0; // Reiniciar usos si ha pasado un día
+            }
+
+            if (usos < 2)
+            {
+                // Solo 2 viajes gratuitos permitidos
                 Console.WriteLine("Viaje gratuito por estudiante.");
+                usos += 1;
+                ultimaFechaUso = DateTime.Now.Date; // Actualizar la última fecha de uso
                 return 1;
             }
             else
             {
-                if (saldo < costo)
+                if ((saldo + 1200) < costo)
                 {
                     Console.WriteLine("No hay saldo suficiente");
                     return 0;
                 }
                 saldo -= costo;
+                Console.WriteLine("Viaje normal, se han agotado los viajes gratuitos disponibles.");
                 acreditarCarga();
                 return 1;
             }
