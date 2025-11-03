@@ -18,6 +18,7 @@ namespace TransporteUrbano
         public Boleto pagarCon(Tarjeta tarjeta)
         {
             int costoBoleto = 1580; // Costo base del boleto
+            int saldoInicial = tarjeta.saldo;
 
             // Intentar realizar el pago usando la lógica de la tarjeta
             int resultadoPago = tarjeta.pagar(costoBoleto);
@@ -26,7 +27,14 @@ namespace TransporteUrbano
             {
                 boletosEntregados++;
                 string codigoBoleto = linea + boletosEntregados;
-                return new Boleto(codigoBoleto, costoBoleto);
+                int idTajeta = tarjeta.id;
+                string lineaBoleto = linea;
+                string tipoTarjeta = tarjeta.GetType().Name;
+                int saldoRestante = tarjeta.saldo;
+                int costoRealBoleto = saldoInicial - saldoRestante;
+                int totalAbonado = saldoInicial >= costoRealBoleto ? costoRealBoleto : saldoInicial;
+
+                return new Boleto(codigoBoleto, saldoRestante, idTajeta, lineaBoleto, tipoTarjeta, totalAbonado, costoRealBoleto);
             }
             else
             {
