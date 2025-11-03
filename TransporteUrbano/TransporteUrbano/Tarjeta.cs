@@ -8,29 +8,42 @@ namespace TransporteUrbano
 {
     public class Tarjeta
     {
-        public int saldo, id;
+        public int saldo, id, pendienteDeAcreditar;
 
         public Tarjeta(int id, int saldo = 0)
         {
-            this.saldo = saldo;
+            if (saldo > 56000)
+            {
+                pendienteDeAcreditar = saldo - 56000;
+                this.saldo = 56000;
+            }
+            else
+            {
+                this.saldo = saldo;
+                pendienteDeAcreditar = 0;
+            }
             this.id = id;
         }
-
+        public void acreditarCarga()
+        {
+            if ((saldo + pendienteDeAcreditar) > 56000)
+            {
+                pendienteDeAcreditar = (saldo + pendienteDeAcreditar) - 56000;
+                saldo = 56000;
+            }
+            else
+            {
+                saldo = saldo + pendienteDeAcreditar;
+                pendienteDeAcreditar = 0;
+            }
+        }
         public int cargar(int money)
         {
             if (money == 2000 || money == 3000 || money == 4000 || money == 5000 || money == 8000 || money == 10000 || money == 15000 || money == 20000 || money == 25000 || money == 30000)
             {
-                if ((saldo + money) >= 40000)
-                {
-                    Console.WriteLine("Supera el limite permitido de saldo");
-                    return 2;
-                }
-                else
-                {
-                    saldo += money;
-                    Console.WriteLine("Se ha cargado saldo correctamente, ahora tiene ", saldo);
-                    return 1;
-                }
+                pendienteDeAcreditar += money;
+                acreditarCarga();
+                return 1;
             }
             else
             {
@@ -41,12 +54,13 @@ namespace TransporteUrbano
 
         public virtual int pagar(int costo)
         {
-            if ((saldo+1200) < costo)
+            if ((saldo + 1200) < costo)
             {
                 Console.WriteLine("No hay saldo suficiente");
                 return 0;
             }
             saldo -= costo;
+            acreditarCarga();
             return 1;
         }
     }
@@ -54,31 +68,93 @@ namespace TransporteUrbano
     // Franquicia parcial: Medio boleto estudiantil
     public class MedioBoletoEstudiantil : Tarjeta
     {
-        public MedioBoletoEstudiantil(int id, int saldo = 0) : base(id, saldo) { }
-
+        private int usos;
+        public DateTime ultimaFechaUso = DateTime.Now.Date;
+        public MedioBoletoEstudiantil(int id, int saldo = 0, int usos = 0, DateTime ultimaFechaUso = new DateTime()) : base(id, saldo) {
+            this.usos = usos; //campo de usos para controlar los viajes con medio boleto
+            this.ultimaFechaUso = ultimaFechaUso;
+        }
         public override int pagar(int costo)
         {
-            int costoReducido = costo / 2; // 50% de descuento
-            if ((saldo+1200) < costoReducido)
+            if ((DateTime.Now - ultimaFechaUso).TotalDays >= 1)
             {
-                Console.WriteLine("No hay saldo suficiente");
-                return 0;
+                usos = 0; // Reiniciar usos si ha pasado un día
             }
-            saldo -= costoReducido;
-            return 1;
+            if (usos < 2) { 
+                if ((DateTime.Now - ultimaFechaUso).TotalMinutes > 5)
+                {
+                    ultimaFechaUso = DateTime.Now;
+                    int costoReducido = costo / 2; // 50% de descuento
+                    if ((saldo + 1200) < costoReducido)
+                    {
+                        Console.WriteLine("No hay saldo suficiente");
+                        return 0;
+                    }
+                    saldo -= costoReducido;
+                    usos += 1;
+                    acreditarCarga();
+                    return 1;
+                }
+                else
+                {
+                   Console.WriteLine("No pasaron 5 minutos desde su último uso, prueba más tarde");
+                   return 0;
+                }
+            } else
+            {
+                if ((saldo + 1200) < costo)
+                {
+                    Console.WriteLine("No hay saldo suficiente");
+                    return 0;
+                }
+                saldo -= costo;
+                acreditarCarga();
+                Console.WriteLine("Viaje normal, se han agotado los medios boletos disponibles." + usos);
+                return 1;
+            }
         }
     }
 
     // Franquicia completa: Boleto gratuito estudiantil
     public class BoletoGratuitoEstudiantil : Tarjeta
     {
-        public BoletoGratuitoEstudiantil(int id, int saldo=0) : base(id, saldo) { }
+        private int usos;
+        public DateTime ultimaFechaUso = DateTime.Now.Date; // Nueva variable para rastrear la última fecha de uso
+
+        public BoletoGratuitoEstudiantil(int id, int saldo = 0, int usos = 0, DateTime ultimaFechaUso = new DateTime()) : base(id, saldo)
+        {
+            this.usos = usos;
+            this.ultimaFechaUso = ultimaFechaUso;
+        }
 
         public override int pagar(int costo)
         {
-            // Siempre permite el viaje sin costo
-            Console.WriteLine("Viaje gratuito por estudiante.");
-            return 1;
+            // Verificar si ha pasado un día desde el último uso
+            if ((DateTime.Now - ultimaFechaUso).TotalDays >= 1)
+            {
+                usos = 0; // Reiniciar usos si ha pasado un día
+            }
+
+            if (usos < 2)
+            {
+                // Solo 2 viajes gratuitos permitidos
+                Console.WriteLine("Viaje gratuito por estudiante.");
+                usos += 1;
+                ultimaFechaUso = DateTime.Now.Date; // Actualizar la última fecha de uso
+                return 1;
+            }
+            else
+            {
+                if ((saldo + 1200) < costo)
+                {
+                    Console.WriteLine("No hay saldo suficiente");
+                    return 0;
+                }
+                saldo -= costo;
+                Console.WriteLine("Viaje normal, se han agotado los viajes gratuitos disponibles.");
+                acreditarCarga();
+                return 1;
+            }
         }
     }
 

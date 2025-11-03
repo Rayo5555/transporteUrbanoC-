@@ -1,4 +1,6 @@
 using NUnit.Framework;
+using System;
+using System.Threading;
 using TransporteUrbano;
 
 namespace TestTransporte
@@ -105,6 +107,111 @@ namespace TestTransporte
             Assert.AreEqual(1580, boleto2.costo, "El costo del boleto debería ser 1580.");
             Assert.AreEqual(420, boleto2.totalAbonado, "El total abonado debería ser 420.");
             Assert.AreEqual(-1160, boleto2.saldo, "El saldo restante en la tarjeta debería ser -1160.");
+        }
+        [Test]
+        public void TestBoletoGratuito_NoMasDeDosViajesGratuitosPorDia()
+        {
+            var tarjeta = new BoletoGratuitoEstudiantil(1,2000);
+
+            // Primer viaje gratuito
+            var boleto1 = colectivo132.pagarCon(tarjeta);
+            Assert.IsNotNull(boleto1, "El primer boleto debería generarse correctamente.");
+            Assert.AreEqual(0, boleto1.costo, "El primer viaje debería ser gratuito.");
+
+            // Se intenta el segundo viaje gratuito
+            var boleto3 = colectivo132.pagarCon(tarjeta);
+            Assert.IsNotNull(boleto1, "El seegundo boleto debería generarse correctamente.");
+            Assert.AreEqual(0, boleto1.costo, "El segundo viaje debería ser gratuito.");
+
+            // Tercer viaje (debería cobrarse con el precio completo)
+            var boleto4 = colectivo132.pagarCon(tarjeta);
+            Assert.IsNotNull(boleto4, "El tercer boleto debería generarse correctamente.");
+            Assert.AreEqual(1580, boleto4.costo, "El tercer viaje debería cobrarse con el precio completo.");
+        }
+        [Test]
+        public void RecargaUsosGratuitol()
+        {
+            var tarjeta = new BoletoGratuitoEstudiantil(4, 2000);
+            // Realizar dos viajes con medio boleto
+            var boleto1 = colectivo132.pagarCon(tarjeta);
+            Assert.IsNotNull(boleto1, "El primer boleto debería generarse correctamente.");
+            Assert.AreEqual(0, boleto1.costo, "El primer viaje debería cobrarse gratis.");
+
+            var boleto2 = colectivo132.pagarCon(tarjeta);
+            Assert.IsNotNull(boleto2, "El segundo boleto debería generarse correctamente.");
+            Assert.AreEqual(0, boleto2.costo, "El segundo viaje debería cobrarse gratis.");
+
+            tarjeta.ultimaFechaUso = tarjeta.ultimaFechaUso.AddDays(-1); // Simular que pasó un día
+
+            // Ahora los usos deberían haberse reiniciado
+            var boleto3 = colectivo132.pagarCon(tarjeta);
+            Assert.IsNotNull(boleto3, "El tercer boleto debería generarse correctamente después de un día.");
+            Assert.AreEqual(0, boleto3.costo, "El tercer viaje debería cobrarse gratis.");
+        }
+
+        [Test]
+        public void TestMedioBoleto_NoViajeEnMenosDeCincoMinutos()
+        {
+            var tarjeta = new MedioBoletoEstudiantil(2, 2000);
+
+            // Primer viaje con medio boleto
+            var boleto1 = colectivo132.pagarCon(tarjeta);
+            Assert.IsNotNull(boleto1, "El primer boleto debería generarse correctamente.");
+            Assert.AreEqual(790, boleto1.costo, "El primer viaje debería cobrarse con el 50% del costo.");
+
+            tarjeta.ultimaFechaUso = tarjeta.ultimaFechaUso.AddMinutes(-4);
+            tarjeta.ultimaFechaUso = tarjeta.ultimaFechaUso.AddSeconds(-59);
+
+            // Intentar un segundo viaje antes de 5 minutos
+            var boleto2 = colectivo132.pagarCon(tarjeta);
+            Assert.IsNull(boleto2, "No debería permitirse un segundo viaje antes de 5 minutos.");
+
+        }
+
+        [Test]
+        public void TestMedioBoleto_NoMasDeDosViajesPorDia()
+        {
+            var tarjeta = new MedioBoletoEstudiantil(3, 2000);
+
+            // Primer viaje con medio boleto
+            var boleto1 = colectivo132.pagarCon(tarjeta);
+            Assert.IsNotNull(boleto1, "El primer boleto debería generarse correctamente.");
+            Assert.AreEqual(790, boleto1.costo, "El primer viaje debería cobrarse con el 50% del costo.");
+
+            // Esperar 5 minutos para el siguiente viaje
+            tarjeta.ultimaFechaUso = tarjeta.ultimaFechaUso.AddMinutes(-5); // Simular que pasaron 5 minutos
+
+            // Segundo viaje con medio boleto
+            var boleto2 = colectivo132.pagarCon(tarjeta);
+            Assert.IsNotNull(boleto2, "El segundo boleto debería generarse correctamente.");
+            Assert.AreEqual(790, boleto2.costo, "El segundo viaje debería cobrarse con el 50% del costo.");
+
+            // Tercer viaje (debería cobrarse con el precio completo)
+            var boleto3 = colectivo132.pagarCon(tarjeta);
+            Assert.IsNotNull(boleto3, "El tercer boleto debería generarse correctamente.");
+            Assert.AreEqual(1580, boleto3.costo, "El tercer viaje debería cobrarse con el precio completo.");
+        }
+        [Test]
+        public void RecargaUsosMedioBoletoEstudiantil()
+        {
+            var tarjeta = new MedioBoletoEstudiantil(4, 2000);
+            // Realizar dos viajes con medio boleto
+            var boleto1 = colectivo132.pagarCon(tarjeta);
+            Assert.IsNotNull(boleto1, "El primer boleto debería generarse correctamente.");
+            Assert.AreEqual(790, boleto1.costo, "El primer viaje debería cobrarse con el 50% del costo.");
+
+            tarjeta.ultimaFechaUso = tarjeta.ultimaFechaUso.AddMinutes(-5); // Simular que pasaron 5 minutos
+
+            var boleto2 = colectivo132.pagarCon(tarjeta);
+            Assert.IsNotNull(boleto2, "El segundo boleto debería generarse correctamente.");
+            Assert.AreEqual(790, boleto2.costo, "El segundo viaje debería cobrarse con el 50% del costo.");
+
+            tarjeta.ultimaFechaUso = tarjeta.ultimaFechaUso.AddDays(-1); // Simular que pasó un día
+
+            // Ahora los usos deberían haberse reiniciado
+            var boleto3 = colectivo132.pagarCon(tarjeta);
+            Assert.IsNotNull(boleto3, "El tercer boleto debería generarse correctamente después de un día.");
+            Assert.AreEqual(790, boleto3.costo, "El tercer viaje debería cobrarse con el 50% del costo.");
         }
     }
 
