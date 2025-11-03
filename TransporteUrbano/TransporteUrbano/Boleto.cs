@@ -23,18 +23,6 @@ namespace TransporteUrbano
             this.tipo = tipo;
             this.totalAbonado = totalAbonado;
         }
-        public void showBoleto()
-        {
-            Console.WriteLine("----- BOLETO -----");
-            Console.WriteLine("Fecha y hora: " + fecha);
-            Console.WriteLine("Codigo del boleto: " + codigo);
-            Console.WriteLine("Linea: " + linea);
-            Console.WriteLine("Tipo de tarjeta: " + tipo);
-            Console.WriteLine("ID de la tarjeta: " + idTarjeta);
-            Console.WriteLine("Costo del boleto: " + costo);
-            Console.WriteLine("Total abonado: " + totalAbonado);
-            Console.WriteLine("Saldo restante en la tarjeta: " + saldo);
-            Console.WriteLine("------------------");
-        }
     }
+
 }
