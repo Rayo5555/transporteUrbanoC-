@@ -25,7 +25,7 @@ namespace TestTransporte
             // Intentar pagar un boleto
             var boleto = colectivo132.pagarCon(tarjeta);
 
-            // Validar que el boleto se gener� y el saldo se descont� correctamente
+            // Validar que el boleto se generó y el saldo se descontó correctamente
             Assert.IsNotNull(boleto, "El boleto debería generarse correctamente.");
             Assert.AreEqual(1210, tarjeta.saldo, "El saldo debería descontarse al 50% del costo del boleto (790).");
             tarjeta.cargar(3000);
@@ -41,13 +41,13 @@ namespace TestTransporte
             // Intentar pagar un boleto
             var boleto = colectivo145_133.pagarCon(tarjeta);
 
-            // Validar que el boleto se gener� y no se descont� saldo
-            Assert.IsNotNull(boleto, "El boleto deber�a generarse correctamente.");
-            Assert.AreEqual(0, tarjeta.saldo, "El saldo deber�a permanecer en 0 ya que el viaje es gratuito.");
+            // Validar que el boleto se generó y no se descontó saldo
+            Assert.IsNotNull(boleto, "El boleto debería generarse correctamente.");
+            Assert.AreEqual(0, tarjeta.saldo, "El saldo debería permanecer en 0 ya que el viaje es gratuito.");
             tarjeta.cargar(2000);
             var boleto2 = colectivo145_133.pagarCon(tarjeta);
-            Assert.IsNotNull(boleto2, "El boleto deber�a generarse correctamente incluso despu�s de cargar saldo.");
-            Assert.AreEqual(2000, tarjeta.saldo, "El saldo deber�a permanecer en 2000 ya que el viaje es gratuito.");
+            Assert.IsNotNull(boleto2, "El boleto debería generarse correctamente incluso después de cargar saldo.");
+            Assert.AreEqual(2000, tarjeta.saldo, "El saldo debería permanecer en 2000 ya que el viaje es gratuito.");
         }
 
         [Test]
@@ -68,12 +68,12 @@ namespace TestTransporte
             Assert.AreEqual(-1000, tarjeta2.saldo, "El saldo debería permanecer en -1000 ya que el viaje es gratuito.");
         }
         [Test]
-        public void TestMaxCarga()
+        public void TestCargaInvalida()
         {
-            var tarjeta = new Tarjeta(4, 39000);
-            int resultado = tarjeta.cargar(2000);
-            Assert.AreEqual(2, resultado, "Debería retornar 2 al superar el lmite de saldo permitido.");
-            Assert.AreEqual(39000, tarjeta.saldo, "El saldo no debería cambiar al intentar cargar más allá del límite.");
+            var tarjeta = new Tarjeta(5, 1000);
+            int resultado = tarjeta.cargar(2500); // Cantidad no válida
+            Assert.AreEqual(0, resultado, "Debería retornar 0 al intentar cargar una cantidad inválida.");
+            Assert.AreEqual(1000, tarjeta.saldo, "El saldo no debería cambiar al intentar cargar una cantidad inválida.");
         }
         [Test]
         public void TestViajeLímite()
@@ -109,4 +109,5 @@ namespace TestTransporte
     }
 
 }
+
 
