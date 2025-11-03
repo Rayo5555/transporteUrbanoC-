@@ -27,10 +27,14 @@ namespace TransporteUrbano
             {
                 boletosEntregados++;
                 string codigoBoleto = linea + boletosEntregados;
+                int idTajeta = tarjeta.id;
+                string lineaBoleto = linea;
+                string tipoTarjeta = tarjeta.GetType().Name;
                 int saldoRestante = tarjeta.saldo;
                 int costoRealBoleto = saldoInicial - saldoRestante;
+                int totalAbonado = saldoInicial >= costoRealBoleto ? costoRealBoleto : saldoInicial;
 
-                return new Boleto(codigoBoleto, costoRealBoleto);
+                return new Boleto(codigoBoleto, saldoRestante, idTajeta, lineaBoleto, tipoTarjeta, totalAbonado, costoRealBoleto);
             }
             else
             {
