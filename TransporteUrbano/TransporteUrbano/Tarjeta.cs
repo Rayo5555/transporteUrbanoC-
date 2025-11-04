@@ -163,7 +163,7 @@ namespace TransporteUrbano
         public override int pagar(int costo, String lineaTomada)
         {
             // Verificar si ha pasado un día desde el último uso
-            if ((DateTime.Now - ultimoUso).TotalDays >= 1)
+            if ((DateTime.Now - ultimaFechaUso).TotalDays >= 1)
             {
                 usos = 0; // Reiniciar usos si ha pasado un día
             }
