@@ -8,7 +8,8 @@ namespace TransporteUrbano
 {
     public class Tarjeta
     {
-        public int saldo, id, pendienteDeAcreditar;
+        public int saldo, id, pendienteDeAcreditar,usoFrecuente = 0;
+        public DateTime primerViajeMes = DateTime.Now;
 
         public Tarjeta(int id, int saldo = 0)
         {
@@ -54,14 +55,61 @@ namespace TransporteUrbano
 
         public virtual int pagar(int costo)
         {
-            if ((saldo + 1200) < costo)
+            if  ((DateTime.Now.Month != primerViajeMes.Month) || (DateTime.Now.Year != primerViajeMes.Year))
             {
-                Console.WriteLine("No hay saldo suficiente");
-                return 0;
+                usoFrecuente = 0;
+                primerViajeMes = DateTime.Now;
             }
-            saldo -= costo;
-            acreditarCarga();
-            return 1;
+            if (usoFrecuente < 29)
+            {
+                if ((saldo + 1200) < costo)
+                {
+                    Console.WriteLine("No hay saldo suficiente");
+                    return 0;
+                }
+                saldo -= costo;
+                acreditarCarga();
+                usoFrecuente += 1;
+                return 1;
+            }
+            else if (usoFrecuente < 59)
+            {
+                int costoReducido = (int)(costo * 0.8);
+                if ((saldo + 1200) < costoReducido)
+                {
+                    Console.WriteLine("No hay saldo suficiente");
+                    return 0;
+                }
+                saldo -= costoReducido;
+                acreditarCarga();
+                usoFrecuente += 1;
+                return 1;
+            }
+            else if (usoFrecuente < 80)
+            {
+                int costoReducido = (int)(costo * 0.75);
+                if ((saldo + 1200) < costoReducido)
+                {
+                    Console.WriteLine("No hay saldo suficiente");
+                    return 0;
+                }
+                saldo -= costoReducido;
+                acreditarCarga();
+                usoFrecuente += 1;
+                return 1;
+            }
+            else
+            {
+                if ((saldo + 1200) < costo)
+                {
+                    Console.WriteLine("No hay saldo suficiente");
+                    return 0;
+                }
+                saldo -= costo;
+                acreditarCarga();
+                usoFrecuente += 1;
+                return 1;
+            }
         }
     }
 
