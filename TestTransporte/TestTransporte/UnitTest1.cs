@@ -169,7 +169,7 @@ namespace TestTransporte
         [Test]
         public void TestMedioBoleto_NoViajeEnMenosDeCincoMinutos()
         {
-            var tarjeta = new MedioBoletoEstudiantil(2, 2000);
+            var tarjeta = new MedioBoletoEstudiantil(2, 800);
 
             // Primer viaje con medio boleto
             var boleto1 = colectivo132.pagarCon(tarjeta);
@@ -188,7 +188,7 @@ namespace TestTransporte
         [Test]
         public void TestMedioBoleto_NoMasDeDosViajesPorDia()
         {
-            var tarjeta = new MedioBoletoEstudiantil(3, 2000);
+            var tarjeta = new MedioBoletoEstudiantil(3, 5000);
 
             // Primer viaje con medio boleto
             var boleto1 = colectivo132.pagarCon(tarjeta);

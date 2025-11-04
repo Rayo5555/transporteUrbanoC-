@@ -109,7 +109,7 @@ namespace TransporteUrbano
             if (transbordo(lineaTomada) == 1)
             {
                 return 2;
-            }
+            }else
             {
                 if (usos < 2)
                 {
