@@ -230,6 +230,22 @@ namespace TestTransporte
             Assert.IsNotNull(boleto3, "El tercer boleto debería generarse correctamente después de un día.");
             Assert.AreEqual(790, boleto3.costo, "El tercer viaje debería cobrarse con el 50% del costo.");
         }
+        [Test]
+        public void PruebaTrasbordos()
+        {
+            var tarjeta = new Tarjeta(4, 5000);
+            // Realizar dos viajes con trasbordos
+            var boleto1 = colectivo132.pagarCon(tarjeta);
+            Assert.IsNotNull(boleto1, "El primer boleto debería generarse correctamente.");
+            Assert.AreEqual(1580, boleto1.costo, "El primer viaje debería cobrarse con el 100% del costo.");
+
+            tarjeta.ultimoUso = tarjeta.ultimoUso.AddMinutes(-5); // Simular que pasaron 5 minutos
+
+            var boleto2 = colectivo145_133.pagarCon(tarjeta);
+            Assert.IsNotNull(boleto2, "El segundo boleto debería generarse correctamente.");
+            Assert.AreEqual(0, boleto2.costo, "El segundo viaje no debería cobrarse.");
+            Assert.AreEqual(1, boleto2.trasbordo, "El boleto deberia marcar que se trasbordo");
+        }
     }
 
 }

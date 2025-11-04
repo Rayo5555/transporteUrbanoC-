@@ -9,9 +9,9 @@ namespace TransporteUrbano
     public class Boleto
     {
         public DateTime fecha;
-        public int costo, saldo, idTarjeta, totalAbonado, transbordo;
+        public int costo, saldo, idTarjeta, totalAbonado, trasbordo;
         public string codigo, linea, tipo;
-        public Boleto(string codigo, int saldo, int idTarjeta, string linea, string tipo, int totalAbonado, int costo = 1580, int transbordo = 0)
+        public Boleto(string codigo, int saldo, int idTarjeta, string linea, string tipo, int totalAbonado, int costo = 1580, int trasbordo = 0)
         {
             fecha = DateTime.Now;
             this.saldo = saldo;
@@ -22,13 +22,13 @@ namespace TransporteUrbano
             this.codigo = codigo;
             this.tipo = tipo;
             this.totalAbonado = totalAbonado;
-            if (transbordo == 2)
+            if (trasbordo == 2)
             {
-                this.transbordo = 1;
+                this.trasbordo = 1;
             }
             else
             {
-                this.transbordo = 0;
+                this.trasbordo = 0;
             }
         }
     }
