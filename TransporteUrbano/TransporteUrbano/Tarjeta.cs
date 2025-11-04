@@ -55,7 +55,7 @@ namespace TransporteUrbano
                 return 0;
             }
         }
-        public int transbordo(String lineaTomada)
+        public int trasbordos(String lineaTomada)
         {
             if(ultimaLinea == lineaTomada || (DateTime.Now - ultimoUso).TotalMinutes > 60 || DateTime.Now.DayOfWeek.ToString() == "Sunday" || DateTime.Now.Hour < 7 || DateTime.Now.Hour >= 22 || ultimaLinea == "")
             {
@@ -70,7 +70,7 @@ namespace TransporteUrbano
         }
         public virtual int pagar(int costo, String lineaTomada)
         {
-            if (transbordo(lineaTomada) == 0)
+            if (trasbordos(lineaTomada) == 0)
             {
                 if ((saldo + 1200) < costo)
                 {
@@ -92,6 +92,7 @@ namespace TransporteUrbano
     public class MedioBoletoEstudiantil : Tarjeta
     {
         private int usos;
+        public DateTime ultimaFechaUso = new DateTime(1970, 1, 1);
         public MedioBoletoEstudiantil(int id, int saldo = 0, int usos = 0) : base(id, saldo) {
             this.usos = usos; //campo de usos para controlar los viajes con medio boleto
             ultimoUso = new DateTime(1970, 1, 1);
@@ -100,20 +101,20 @@ namespace TransporteUrbano
         public override int pagar(int costo, String lineaTomada)
         {
 
-            if ((DateTime.Now - ultimoUso).TotalDays >= 1)
+            if ((DateTime.Now - ultimaFechaUso).TotalDays >= 1)
             {
                 usos = 0; // Reiniciar usos si ha pasado un día
             }
-            if (transbordo(lineaTomada) == 1)
+            if (trasbordos(lineaTomada) == 1)
             {
                 return 2;
             }else
             {
                 if (usos < 2)
                 {
-                    if ((DateTime.Now - ultimoUso).TotalMinutes >= 5)
+                    if ((DateTime.Now - ultimaFechaUso).TotalMinutes > 5)
                     {
-                        ultimoUso = DateTime.Now;
+                        ultimaFechaUso = DateTime.Now;
                         int costoReducido = costo / 2; // 50% de descuento
                         if ((saldo + 1200) < costoReducido)
                         {
@@ -151,6 +152,7 @@ namespace TransporteUrbano
     public class BoletoGratuitoEstudiantil : Tarjeta
     {
         private int usos;
+        public DateTime ultimaFechaUso = new DateTime(1970, 1, 1);
         public BoletoGratuitoEstudiantil(int id, int saldo = 0, int usos = 0) : base(id, saldo)
         {
             this.usos = usos;
@@ -165,7 +167,7 @@ namespace TransporteUrbano
             {
                 usos = 0; // Reiniciar usos si ha pasado un día
             }
-            if (transbordo(lineaTomada) == 1)
+            if (trasbordos(lineaTomada) == 1)
             {
                 return 2;
             }else
@@ -175,7 +177,7 @@ namespace TransporteUrbano
                     // Solo 2 viajes gratuitos permitidos
                     Console.WriteLine("Viaje gratuito por estudiante.");
                     usos += 1;
-                    ultimoUso = DateTime.Now.Date; // Actualizar la última fecha de uso
+                    ultimaFechaUso = DateTime.Now.Date; // Actualizar la última fecha de uso
                     return 1;
                 }
                 else
@@ -204,7 +206,7 @@ namespace TransporteUrbano
 
         public override int pagar(int costo, String lineaTomada)
         {
-            if (transbordo(lineaTomada) == 0)
+            if (trasbordos(lineaTomada) == 0)
             {
                 // Siempre permite el viaje sin costo
                 Console.WriteLine("Viaje gratuito.");

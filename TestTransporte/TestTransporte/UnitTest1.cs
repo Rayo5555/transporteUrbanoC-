@@ -69,7 +69,7 @@ namespace TestTransporte
             Assert.IsNotNull(boleto2, "El boleto debeía generarse correctamente incluso con saldo negativo.");
             Assert.AreEqual(-1000, tarjeta2.saldo, "El saldo debería permanecer en -1000 ya que el viaje es gratuito.");
         }
-      
+
         [Test]
         public void TestCargaInvalida()
         {
@@ -128,7 +128,7 @@ namespace TestTransporte
         [Test]
         public void TestBoletoGratuito_NoMasDeDosViajesGratuitosPorDia()
         {
-            var tarjeta = new BoletoGratuitoEstudiantil(1,2000);
+            var tarjeta = new BoletoGratuitoEstudiantil(1, 2000);
 
             // Primer viaje gratuito
             var boleto1 = colectivo132.pagarCon(tarjeta);
@@ -158,7 +158,7 @@ namespace TestTransporte
             Assert.IsNotNull(boleto2, "El segundo boleto debería generarse correctamente.");
             Assert.AreEqual(0, boleto2.costo, "El segundo viaje debería cobrarse gratis.");
 
-            tarjeta.ultimoUso = tarjeta.ultimoUso.AddDays(-1); // Simular que pasó un día
+            tarjeta.ultimaFechaUso = tarjeta.ultimaFechaUso.AddDays(-1); // Simular que pasó un día
 
             // Ahora los usos deberían haberse reiniciado
             var boleto3 = colectivo132.pagarCon(tarjeta);
@@ -169,15 +169,15 @@ namespace TestTransporte
         [Test]
         public void TestMedioBoleto_NoViajeEnMenosDeCincoMinutos()
         {
-            var tarjeta = new MedioBoletoEstudiantil(2, 800);
+            var tarjeta = new MedioBoletoEstudiantil(2, 2000);
 
             // Primer viaje con medio boleto
             var boleto1 = colectivo132.pagarCon(tarjeta);
             Assert.IsNotNull(boleto1, "El primer boleto debería generarse correctamente.");
             Assert.AreEqual(790, boleto1.costo, "El primer viaje debería cobrarse con el 50% del costo.");
 
-            tarjeta.ultimoUso = tarjeta.ultimoUso.AddMinutes(-4);
-            tarjeta.ultimoUso = tarjeta.ultimoUso.AddSeconds(-50);
+            tarjeta.ultimaFechaUso = tarjeta.ultimaFechaUso.AddMinutes(-4);
+            tarjeta.ultimaFechaUso = tarjeta.ultimaFechaUso.AddSeconds(-59);
 
             // Intentar un segundo viaje antes de 5 minutos
             var boleto2 = colectivo132.pagarCon(tarjeta);
@@ -188,7 +188,7 @@ namespace TestTransporte
         [Test]
         public void TestMedioBoleto_NoMasDeDosViajesPorDia()
         {
-            var tarjeta = new MedioBoletoEstudiantil(3, 5000);
+            var tarjeta = new MedioBoletoEstudiantil(3, 2000);
 
             // Primer viaje con medio boleto
             var boleto1 = colectivo132.pagarCon(tarjeta);
@@ -196,7 +196,7 @@ namespace TestTransporte
             Assert.AreEqual(790, boleto1.costo, "El primer viaje debería cobrarse con el 50% del costo.");
 
             // Esperar 5 minutos para el siguiente viaje
-            tarjeta.ultimoUso = tarjeta.ultimoUso.AddMinutes(-5); // Simular que pasaron 5 minutos
+            tarjeta.ultimaFechaUso = tarjeta.ultimaFechaUso.AddMinutes(-5); // Simular que pasaron 5 minutos
 
             // Segundo viaje con medio boleto
             var boleto2 = colectivo132.pagarCon(tarjeta);
@@ -217,13 +217,13 @@ namespace TestTransporte
             Assert.IsNotNull(boleto1, "El primer boleto debería generarse correctamente.");
             Assert.AreEqual(790, boleto1.costo, "El primer viaje debería cobrarse con el 50% del costo.");
 
-            tarjeta.ultimoUso = tarjeta.ultimoUso.AddMinutes(-5); // Simular que pasaron 5 minutos
+            tarjeta.ultimaFechaUso = tarjeta.ultimaFechaUso.AddMinutes(-5); // Simular que pasaron 5 minutos
 
             var boleto2 = colectivo132.pagarCon(tarjeta);
             Assert.IsNotNull(boleto2, "El segundo boleto debería generarse correctamente.");
             Assert.AreEqual(790, boleto2.costo, "El segundo viaje debería cobrarse con el 50% del costo.");
 
-            tarjeta.ultimoUso = tarjeta.ultimoUso.AddDays(-1); // Simular que pasó un día
+            tarjeta.ultimaFechaUso = tarjeta.ultimaFechaUso.AddDays(-1); // Simular que pasó un día
 
             // Ahora los usos deberían haberse reiniciado
             var boleto3 = colectivo132.pagarCon(tarjeta);
@@ -233,5 +233,4 @@ namespace TestTransporte
     }
 
 }
-
 
