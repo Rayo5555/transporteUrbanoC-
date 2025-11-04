@@ -96,6 +96,8 @@ namespace TransporteUrbano
         public MedioBoletoEstudiantil(int id, int saldo = 0, int usos = 0, DateTime ultimaFechaUso = new DateTime()) : base(id, saldo) {
             this.usos = usos; //campo de usos para controlar los viajes con medio boleto
             this.ultimaFechaUso = ultimaFechaUso;
+            ultimoUso = new DateTime(1970, 1, 1);
+            ultimaLinea = "";
         }
         public override int pagar(int costo, String lineaTomada)
         {
@@ -158,6 +160,8 @@ namespace TransporteUrbano
         {
             this.usos = usos;
             this.ultimaFechaUso = ultimaFechaUso;
+            ultimoUso = new DateTime(1970, 1, 1);
+            ultimaLinea = "";
         }
 
         public override int pagar(int costo, String lineaTomada)
@@ -200,7 +204,10 @@ namespace TransporteUrbano
     // Franquicia completa: Jubilados
     public class FranquiciaCompleta : Tarjeta
     {
-        public FranquiciaCompleta(int id, int saldo = 0) : base(id, saldo) { }
+        public FranquiciaCompleta(int id, int saldo = 0) : base(id, saldo) {
+            ultimoUso = new DateTime(1970, 1, 1);
+            ultimaLinea = "";
+        }
 
         public override int pagar(int costo, String lineaTomada)
         {
