@@ -113,7 +113,7 @@ namespace TransporteUrbano
             {
                 if (usos < 2)
                 {
-                    if ((DateTime.Now - ultimaFechaUso).TotalMinutes > 5)
+                    if ((DateTime.Now - ultimaFechaUso).TotalMinutes >= 5)
                     {
                         ultimaFechaUso = DateTime.Now;
                         int costoReducido = costo / 2; // 50% de descuento
