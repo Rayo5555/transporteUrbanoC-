@@ -57,7 +57,7 @@ namespace TransporteUrbano
         }
         public int transbordo(String lineaTomada)
         {
-            if(ultimaLinea == lineaTomada || (DateTime.Now - ultimoUso).TotalMinutes > 60 || DateTime.Now.DayOfWeek.ToString() == "Sunday" || DateTime.Now.Hour < 7 || DateTime.Now.Hour >= 22)
+            if(ultimaLinea == lineaTomada || (DateTime.Now - ultimoUso).TotalMinutes > 60 || DateTime.Now.DayOfWeek.ToString() == "Sunday" || DateTime.Now.Hour < 7 || DateTime.Now.Hour >= 22 || ultimaLinea == "")
             {
                 ultimoUso = DateTime.Now;
                 return 0;
