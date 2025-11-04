@@ -177,7 +177,7 @@ namespace TestTransporte
             Assert.AreEqual(790, boleto1.costo, "El primer viaje debería cobrarse con el 50% del costo.");
 
             tarjeta.ultimaFechaUso = tarjeta.ultimaFechaUso.AddMinutes(-4);
-            tarjeta.ultimaFechaUso = tarjeta.ultimaFechaUso.AddSeconds(-59);
+            tarjeta.ultimaFechaUso = tarjeta.ultimaFechaUso.AddSeconds(-50);
 
             // Intentar un segundo viaje antes de 5 minutos
             var boleto2 = colectivo132.pagarCon(tarjeta);

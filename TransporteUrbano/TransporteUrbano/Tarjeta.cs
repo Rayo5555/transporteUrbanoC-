@@ -106,7 +106,10 @@ namespace TransporteUrbano
             {
                 usos = 0; // Reiniciar usos si ha pasado un día
             }
-            if (transbordo(lineaTomada) == 0)
+            if (transbordo(lineaTomada) == 1)
+            {
+                return 2;
+            }
             {
                 if (usos < 2)
                 {
@@ -143,10 +146,6 @@ namespace TransporteUrbano
                     return 1;
                 }
             }
-            else
-            {
-                return 2;
-            }
         }
     }
 
@@ -171,7 +170,10 @@ namespace TransporteUrbano
             {
                 usos = 0; // Reiniciar usos si ha pasado un día
             }
-            if (transbordo(lineaTomada) == 0)
+            if (transbordo(lineaTomada) == 1)
+            {
+                return 2;
+            }else
             {
                 if (usos < 2)
                 {
@@ -193,10 +195,6 @@ namespace TransporteUrbano
                     acreditarCarga();
                     return 1;
                 }
-            }
-            else
-            {
-                return 2;
             }
         }
     }
