@@ -55,7 +55,7 @@ namespace TransporteUrbano
                 return 0;
             }
         }
-        public int Transbordo(String lineaTomada)
+        public int transbordo(String lineaTomada)
         {
             if(ultimaLinea == lineaTomada || (DateTime.Now - ultimoUso).TotalMinutes > 60 || DateTime.Now.DayOfWeek.ToString() == "Sunday" || DateTime.Now.Hour < 7 || DateTime.Now.Hour >= 22)
             {
@@ -70,7 +70,7 @@ namespace TransporteUrbano
         }
         public virtual int pagar(int costo, String lineaTomada)
         {
-            if (Transbordo(lineaTomada) == 1)
+            if (transbordo(lineaTomada) == 0)
             {
                 if ((saldo + 1200) < costo)
                 {
@@ -106,7 +106,7 @@ namespace TransporteUrbano
             {
                 usos = 0; // Reiniciar usos si ha pasado un día
             }
-            if (Transbordo(lineaTomada) == 1)
+            if (transbordo(lineaTomada) == 0)
             {
                 if (usos < 2)
                 {
@@ -171,7 +171,7 @@ namespace TransporteUrbano
             {
                 usos = 0; // Reiniciar usos si ha pasado un día
             }
-            if (Transbordo(lineaTomada) == 1)
+            if (transbordo(lineaTomada) == 0)
             {
                 if (usos < 2)
                 {
@@ -211,7 +211,7 @@ namespace TransporteUrbano
 
         public override int pagar(int costo, String lineaTomada)
         {
-            if (Transbordo(lineaTomada) == 1)
+            if (transbordo(lineaTomada) == 0)
             {
                 // Siempre permite el viaje sin costo
                 Console.WriteLine("Viaje gratuito.");
