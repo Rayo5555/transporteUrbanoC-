@@ -11,7 +11,7 @@ namespace TransporteUrbano
         public DateTime fecha;
         public int costo, saldo, idTarjeta, totalAbonado, transbordo;
         public string codigo, linea, tipo;
-        public Boleto(string codigo, int saldo, int idTarjeta, string linea, string tipo, int totalAbonado, int costo = 1580, int transbordo)
+        public Boleto(string codigo, int saldo, int idTarjeta, string linea, string tipo, int totalAbonado, int costo = 1580, int transbordo = 0)
         {
             fecha = DateTime.Now;
             this.saldo = saldo;
@@ -34,3 +34,4 @@ namespace TransporteUrbano
     }
 
 }
+
