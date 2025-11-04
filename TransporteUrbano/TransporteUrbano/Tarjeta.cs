@@ -92,17 +92,15 @@ namespace TransporteUrbano
     public class MedioBoletoEstudiantil : Tarjeta
     {
         private int usos;
-        public DateTime ultimaFechaUso = DateTime.Now.Date;
-        public MedioBoletoEstudiantil(int id, int saldo = 0, int usos = 0, DateTime ultimaFechaUso = new DateTime()) : base(id, saldo) {
+        public MedioBoletoEstudiantil(int id, int saldo = 0, int usos = 0) : base(id, saldo) {
             this.usos = usos; //campo de usos para controlar los viajes con medio boleto
-            this.ultimaFechaUso = ultimaFechaUso;
             ultimoUso = new DateTime(1970, 1, 1);
             ultimaLinea = "";
         }
         public override int pagar(int costo, String lineaTomada)
         {
 
-            if ((DateTime.Now - ultimaFechaUso).TotalDays >= 1)
+            if ((DateTime.Now - ultimoUso).TotalDays >= 1)
             {
                 usos = 0; // Reiniciar usos si ha pasado un día
             }
@@ -113,9 +111,9 @@ namespace TransporteUrbano
             {
                 if (usos < 2)
                 {
-                    if ((DateTime.Now - ultimaFechaUso).TotalMinutes >= 5)
+                    if ((DateTime.Now - ultimoUso).TotalMinutes >= 5)
                     {
-                        ultimaFechaUso = DateTime.Now;
+                        ultimoUso = DateTime.Now;
                         int costoReducido = costo / 2; // 50% de descuento
                         if ((saldo + 1200) < costoReducido)
                         {
@@ -153,12 +151,9 @@ namespace TransporteUrbano
     public class BoletoGratuitoEstudiantil : Tarjeta
     {
         private int usos;
-        public DateTime ultimaFechaUso = DateTime.Now.Date; // Nueva variable para rastrear la última fecha de uso
-
-        public BoletoGratuitoEstudiantil(int id, int saldo = 0, int usos = 0, DateTime ultimaFechaUso = new DateTime()) : base(id, saldo)
+        public BoletoGratuitoEstudiantil(int id, int saldo = 0, int usos = 0) : base(id, saldo)
         {
             this.usos = usos;
-            this.ultimaFechaUso = ultimaFechaUso;
             ultimoUso = new DateTime(1970, 1, 1);
             ultimaLinea = "";
         }
@@ -166,7 +161,7 @@ namespace TransporteUrbano
         public override int pagar(int costo, String lineaTomada)
         {
             // Verificar si ha pasado un día desde el último uso
-            if ((DateTime.Now - ultimaFechaUso).TotalDays >= 1)
+            if ((DateTime.Now - ultimoUso).TotalDays >= 1)
             {
                 usos = 0; // Reiniciar usos si ha pasado un día
             }
@@ -180,7 +175,7 @@ namespace TransporteUrbano
                     // Solo 2 viajes gratuitos permitidos
                     Console.WriteLine("Viaje gratuito por estudiante.");
                     usos += 1;
-                    ultimaFechaUso = DateTime.Now.Date; // Actualizar la última fecha de uso
+                    ultimoUso = DateTime.Now.Date; // Actualizar la última fecha de uso
                     return 1;
                 }
                 else
