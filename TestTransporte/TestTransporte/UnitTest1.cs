@@ -255,6 +255,41 @@ namespace TestTransporte
             Assert.AreEqual(790, boleto3.costo, "El tercer viaje debería cobrarse con el 50% del costo.");
         }
         [Test]
+        public void TestColectivoInterurbano()
+        {
+            var colectivoInterurbanoA = new ColectivoInterurbano("ACostanera");
+            var tarjeta = new Tarjeta(8, 5000);
+            var tarjeta2 = new MedioBoletoEstudiantil(9, 5000);
+            var tarjeta3 = new BoletoGratuitoEstudiantil(10, 5000);
+            var tarjeta4 = new FranquiciaCompleta(11, 5000);
+            var boleto = colectivoInterurbanoA.pagarCon(tarjeta);
+            Assert.IsNotNull(boleto, "El boleto debería generarse correctamente para el colectivo interurbano.");
+            Assert.AreEqual(3000, boleto.costo, "El costo del boleto interurbano debería ser 3000.");
+            Assert.AreEqual(2000, tarjeta.saldo, "El saldo debería descontarse correctamente después de pagar el boleto interurbano.");
+            var boleto2 = colectivoInterurbanoA.pagarCon(tarjeta2);
+            Assert.IsNotNull(boleto2, "El boleto debería generarse correctamente para el colectivo interurbano con medio boleto.");
+            Assert.AreEqual(1500, boleto2.costo, "El costo del boleto interurbano con medio boleto debería ser 1500.");
+            Assert.AreEqual(3500, tarjeta2.saldo, "El saldo debería descontarse correctamente después de pagar el boleto interurbano con medio boleto.");
+            var boleto3 = colectivoInterurbanoA.pagarCon(tarjeta3);
+            Assert.IsNotNull(boleto3, "El boleto debería generarse correctamente para el colectivo interurbano con boleto gratuito.");
+            Assert.AreEqual(0, boleto3.costo, "El costo del boleto interurbano con boleto gratuito debería ser 0.");
+            var boleto4 = colectivoInterurbanoA.pagarCon(tarjeta4);
+            Assert.IsNotNull(boleto4, "El boleto debería generarse correctamente para el colectivo interurbano con franquicia completa.");
+            Assert.AreEqual(0, boleto4.costo, "El costo del boleto interurbano con franquicia completa debería ser 0.");
+            tarjeta.saldo = 1000; // Ajustar saldo para probar falta de fondos
+            var boleto5 = colectivoInterurbanoA.pagarCon(tarjeta);
+            Assert.IsNull(boleto5, "El boleto NO debería generarse por falta de saldo.");
+            Assert.AreEqual(1000, tarjeta.saldo, "El saldo debería permanecer igual después de un intento fallido de pago.");
+
+            Assert.AreEqual("ACostanera1", boleto.codigo, "El código del boleto debería ser '1321'.");
+            Assert.AreEqual("ACostanera", boleto.linea, "La línea del boleto debería ser '132'.");
+            Assert.AreEqual("Tarjeta", boleto.tipo, "El tipo de tarjeta debería ser 'Tarjeta'.");
+            Assert.AreEqual(8, boleto.idTarjeta, "El ID de la tarjeta debería ser 7.");
+            Assert.AreEqual(3000, boleto.costo, "El costo del boleto debería ser 1580.");
+            Assert.AreEqual(3000, boleto.totalAbonado, "El total abonado debería ser 1580.");
+            Assert.AreEqual(2000, boleto.saldo, "El saldo restante en la tarjeta debería ser 420.");
+        }
+        [Test]
         public void TarjetaFrecuenteDescuentos()
         {
             var tarjeta = new Tarjeta(5, 20000);
