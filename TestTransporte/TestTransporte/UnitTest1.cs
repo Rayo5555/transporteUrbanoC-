@@ -5,6 +5,12 @@ using TransporteUrbano;
 
 namespace TestTransporte
 {
+
+    public static class Reloj
+    {
+        public static Func<DateTime> Ahora = () => DateTime.Now;
+    }
+
     public class Tests
     {
         private TransporteUrbano.Colectivo colectivo132;
@@ -69,7 +75,7 @@ namespace TestTransporte
             Assert.IsNotNull(boleto2, "El boleto debeía generarse correctamente incluso con saldo negativo.");
             Assert.AreEqual(-1000, tarjeta2.saldo, "El saldo debería permanecer en -1000 ya que el viaje es gratuito.");
         }
-      
+
         [Test]
         public void TestCargaInvalida()
         {
@@ -103,6 +109,24 @@ namespace TestTransporte
             Assert.AreEqual(1840, tarjeta.pendienteDeAcreditar, "El pendiente de acreditar debería ser 1840 después de la acreditación.");
         }
         [Test]
+        public void AcreditarSaldo2()
+        {
+            var tarjeta = new MedioBoletoEstudiantil(4, 57000);
+            Assert.AreEqual(56000, tarjeta.saldo, "El saldo debería ser 56000 después de la acreditación inicial.");
+            Assert.AreEqual(1000, tarjeta.pendienteDeAcreditar, "El pendiente de acreditar debería ser 2000 después de la acreditación inicial.");
+            var boleto = colectivo145_133.pagarCon(tarjeta);
+            tarjeta.ultimaFechaUso = tarjeta.ultimaFechaUso.AddMinutes(-5);
+            Assert.AreEqual(56000, tarjeta.saldo, "El saldo debería mantenerse en 56000");
+            Assert.AreEqual(210, tarjeta.pendienteDeAcreditar, "Debería consumir 790 del pendiente");
+            var boleto2 = colectivo145_133.pagarCon(tarjeta);
+
+            Assert.AreEqual(55420, tarjeta.saldo, "El saldo debería ser 55420 después de pagar otro boleto.");
+            Assert.AreEqual(0, tarjeta.pendienteDeAcreditar, "El pendiente de acreditar debería ser 0 después de pagar otro boleto.");
+            tarjeta.cargar(3000);
+            Assert.AreEqual(56000, tarjeta.saldo, "El saldo debería ser 56000 después de la acreditación.");
+            Assert.AreEqual(2420, tarjeta.pendienteDeAcreditar, "El pendiente de acreditar debería ser 2420 después de la acreditación.");
+        }
+        [Test]
         public void InfoBoleto()
         {
             var tarjeta = new Tarjeta(7, 2000);
@@ -128,7 +152,7 @@ namespace TestTransporte
         [Test]
         public void TestBoletoGratuito_NoMasDeDosViajesGratuitosPorDia()
         {
-            var tarjeta = new BoletoGratuitoEstudiantil(1,2000);
+            var tarjeta = new BoletoGratuitoEstudiantil(1, 2000);
 
             // Primer viaje gratuito
             var boleto1 = colectivo132.pagarCon(tarjeta);
@@ -230,8 +254,140 @@ namespace TestTransporte
             Assert.IsNotNull(boleto3, "El tercer boleto debería generarse correctamente después de un día.");
             Assert.AreEqual(790, boleto3.costo, "El tercer viaje debería cobrarse con el 50% del costo.");
         }
+        [Test]
+        public void TestColectivoInterurbano()
+        {
+            var colectivoInterurbanoA = new ColectivoInterurbano("ACostanera");
+            var tarjeta = new Tarjeta(8, 5000);
+            var tarjeta2 = new MedioBoletoEstudiantil(9, 5000);
+            var tarjeta3 = new BoletoGratuitoEstudiantil(10, 5000);
+            var tarjeta4 = new FranquiciaCompleta(11, 5000);
+            var boleto = colectivoInterurbanoA.pagarCon(tarjeta);
+            Assert.IsNotNull(boleto, "El boleto debería generarse correctamente para el colectivo interurbano.");
+            Assert.AreEqual(3000, boleto.costo, "El costo del boleto interurbano debería ser 3000.");
+            Assert.AreEqual(2000, tarjeta.saldo, "El saldo debería descontarse correctamente después de pagar el boleto interurbano.");
+            var boleto2 = colectivoInterurbanoA.pagarCon(tarjeta2);
+            Assert.IsNotNull(boleto2, "El boleto debería generarse correctamente para el colectivo interurbano con medio boleto.");
+            Assert.AreEqual(1500, boleto2.costo, "El costo del boleto interurbano con medio boleto debería ser 1500.");
+            Assert.AreEqual(3500, tarjeta2.saldo, "El saldo debería descontarse correctamente después de pagar el boleto interurbano con medio boleto.");
+            var boleto3 = colectivoInterurbanoA.pagarCon(tarjeta3);
+            Assert.IsNotNull(boleto3, "El boleto debería generarse correctamente para el colectivo interurbano con boleto gratuito.");
+            Assert.AreEqual(0, boleto3.costo, "El costo del boleto interurbano con boleto gratuito debería ser 0.");
+            var boleto4 = colectivoInterurbanoA.pagarCon(tarjeta4);
+            Assert.IsNotNull(boleto4, "El boleto debería generarse correctamente para el colectivo interurbano con franquicia completa.");
+            Assert.AreEqual(0, boleto4.costo, "El costo del boleto interurbano con franquicia completa debería ser 0.");
+            tarjeta.saldo = 1000; // Ajustar saldo para probar falta de fondos
+            var boleto5 = colectivoInterurbanoA.pagarCon(tarjeta);
+            Assert.IsNull(boleto5, "El boleto NO debería generarse por falta de saldo.");
+            Assert.AreEqual(1000, tarjeta.saldo, "El saldo debería permanecer igual después de un intento fallido de pago.");
+
+            Assert.AreEqual("ACostanera1", boleto.codigo, "El código del boleto debería ser '1321'.");
+            Assert.AreEqual("ACostanera", boleto.linea, "La línea del boleto debería ser '132'.");
+            Assert.AreEqual("Tarjeta", boleto.tipo, "El tipo de tarjeta debería ser 'Tarjeta'.");
+            Assert.AreEqual(8, boleto.idTarjeta, "El ID de la tarjeta debería ser 7.");
+            Assert.AreEqual(3000, boleto.costo, "El costo del boleto debería ser 1580.");
+            Assert.AreEqual(3000, boleto.totalAbonado, "El total abonado debería ser 1580.");
+            Assert.AreEqual(2000, boleto.saldo, "El saldo restante en la tarjeta debería ser 420.");
+        }
+        [Test]
+        public void TarjetaFrecuenteDescuentos()
+        {
+            var tarjeta = new Tarjeta(5, 20000);
+            // Viaje número 29 (precio normal)
+            tarjeta.usoFrecuente = 28;
+            var boleto1 = colectivo132.pagarCon(tarjeta);
+            Assert.IsNotNull(boleto1, "El boleto debería generarse correctamente para el viaje 29.");
+            Assert.AreEqual(1580, boleto1.costo, "El costo del boleto debería ser 1580 para el viaje 29.");
+            Assert.AreEqual(18420, tarjeta.saldo, "El saldo debería descontarse correctamente para el viaje 29.");
+            // Viaje número 30 (descuento 20% aplicado)
+            var boleto2 = colectivo132.pagarCon(tarjeta);
+            Assert.IsNotNull(boleto2, "El boleto debería generarse correctamente para el viaje 30.");
+            Assert.AreEqual(1264, boleto2.costo, "El costo del boleto debería ser 1264 para el viaje 30 con descuento.");
+            Assert.AreEqual(17156, tarjeta.saldo, "El saldo debería descontarse correctamente para el viaje 30 con descuento.");
+            tarjeta.usoFrecuente = 58;
+            // Viaje número 59 (descuento 20% aplicado)
+            var boleto3 = colectivo132.pagarCon(tarjeta);
+            Assert.IsNotNull(boleto3, "El boleto debería generarse correctamente para el viaje 59.");
+            Assert.AreEqual(1264, boleto3.costo, "El costo del boleto debería ser 1264 para el viaje 59 con descuento.");
+            Assert.AreEqual(15892, tarjeta.saldo, "El saldo debería descontarse correctamente para el viaje 59 con descuento.");
+            // Viaje número 60 (descuento 25% aplicado)
+            var boleto4 = colectivo132.pagarCon(tarjeta);
+            Assert.IsNotNull(boleto4, "El boleto debería generarse correctamente para el viaje 60.");
+            Assert.AreEqual(1185, boleto4.costo, "El costo del boleto debería ser 1185 para el viaje 60 con descuento.");
+            Assert.AreEqual(14707, tarjeta.saldo, "El saldo debería descontarse correctamente para el viaje 60 con descuento.");
+            tarjeta.usoFrecuente = 79;
+            // Viaje número 80 (descuento 25% aplicado)
+            var boleto5 = colectivo132.pagarCon(tarjeta);
+            Assert.IsNotNull(boleto5, "El boleto debería generarse correctamente para el viaje 79.");
+            Assert.AreEqual(1185, boleto5.costo, "El costo del boleto debería ser 1185 para el viaje 79 con descuento.");
+            Assert.AreEqual(13522, tarjeta.saldo, "El saldo debería descontarse correctamente para el viaje 79 con descuento.");
+            // Viaje número 81 (valor normal nuevamente)
+            var boleto6 = colectivo132.pagarCon(tarjeta);
+            Assert.IsNotNull(boleto6, "El boleto debería generarse correctamente para el viaje 80.");
+            Assert.AreEqual(1580, boleto6.costo, "El costo del boleto debería ser 1580 para el viaje 80.");
+            Assert.AreEqual(11942, tarjeta.saldo, "El saldo debería descontarse correctamente para el viaje 80.");
+
+
+        }
+        [Test]
+        public void TarjetaFrecuenteReset()
+        {
+            var tarjeta = new Tarjeta(6, 5000);
+            tarjeta.usoFrecuente = 50;
+            var boleto1 = colectivo132.pagarCon(tarjeta);
+            Assert.IsNotNull(boleto1, "El boleto debería generarse correctamente.");
+            Assert.AreEqual(1264, boleto1.costo, "El costo del boleto debería ser 1264 con descuento.");
+            Assert.AreEqual(3736, tarjeta.saldo, "El saldo debería descontarse correctamente.");
+            // Simular que pasó un mes
+            tarjeta.primerViajeMes = tarjeta.primerViajeMes.AddMonths(-1);
+            var boleto2 = colectivo132.pagarCon(tarjeta);
+            Assert.IsNotNull(boleto2, "El boleto debería generarse correctamente.");
+            Assert.AreEqual(1580, boleto2.costo, "El costo del boleto debería ser 1580 sin descuento después de un mes.");
+            Assert.AreEqual(2156, tarjeta.saldo, "El saldo debería descontarse correctamente sin descuento después de un mes.");
+
+        }
+        [Test]
+        public void TarjetaFrecuenteSinSaldo()
+        {
+            var tarjeta = new Tarjeta(7, 0);
+            tarjeta.usoFrecuente = 29;
+            var boleto1 = colectivo132.pagarCon(tarjeta);
+            Assert.IsNull(boleto1, "El boleto no debería generarse por saldo insuficiente.");
+            Assert.AreEqual(0, tarjeta.saldo, "El saldo debería permanecer igual por saldo insuficiente.");
+            tarjeta.usoFrecuente = 59;
+            var boleto2 = colectivo132.pagarCon(tarjeta);
+            Assert.IsNotNull(boleto2, "El boleto debería generarse correctamente.");
+            Assert.AreEqual(1185, boleto2.costo, "El costo del boleto debería ser 1185 con descuento.");
+            Assert.AreEqual(-1185, tarjeta.saldo, "El saldo debería descontarse correctamente.");
+            var boleto3 = colectivo132.pagarCon(tarjeta);
+            Assert.IsNull(boleto3, "El boleto no debería generarse por saldo insuficiente.");
+            tarjeta.usoFrecuente = 80;
+            var boleto4 = colectivo132.pagarCon(tarjeta);
+            Assert.IsNull(boleto4, "El boleto no debería generarse por saldo insuficiente.");
+        }
+        [Test]
+        public void PruebaTrasbordos()
+        {
+            var tarjeta = new Tarjeta(4, 5000);
+
+            // Configurar el reloj simulado
+            Tarjeta.Reloj = () => new DateTime(2025, 11, 4, 10, 0, 0);
+
+            // Primer viaje
+            var boleto1 = colectivo132.pagarCon(tarjeta);
+            Assert.IsNotNull(boleto1, "El primer boleto debería generarse correctamente.");
+            Assert.AreEqual(1580, boleto1.costo, "El primer viaje debería cobrarse con el 100% del costo.");
+
+            // Simular que pasaron 15 minutos
+            Tarjeta.Reloj = () => new DateTime(2025, 11, 4, 10, 15, 0);
+
+            // Segundo viaje (trasbordo)
+            var boleto2 = colectivo145_133.pagarCon(tarjeta);
+            Assert.IsNotNull(boleto2, "El segundo boleto debería generarse correctamente.");
+            Assert.AreEqual(0, boleto2.costo, "El segundo viaje no debería cobrarse.");
+            Assert.AreEqual(1, boleto2.trasbordo, "El boleto debería marcar que es un trasbordo.");
+        }
     }
 
 }
-
 
