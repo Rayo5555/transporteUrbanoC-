@@ -80,7 +80,7 @@ namespace TransporteUrbano
             {
                 usos = 0; // Reiniciar usos si ha pasado un día
             }
-            if (usos < 2) { 
+            if (usos < 2 && DateTime.Now.DayOfWeek.ToString() != "Sunday" && DateTime.Now.DayOfWeek.ToString() != "Saturday" && DateTime.Now.Hour >= 7 || DateTime.Now.Hour < 22) { 
                 if ((DateTime.Now - ultimaFechaUso).TotalMinutes > 5)
                 {
                     ultimaFechaUso = DateTime.Now;
@@ -135,7 +135,7 @@ namespace TransporteUrbano
                 usos = 0; // Reiniciar usos si ha pasado un día
             }
 
-            if (usos < 2)
+            if (usos < 2 && DateTime.Now.DayOfWeek.ToString() != "Sunday" && DateTime.Now.DayOfWeek.ToString() != "Saturday" && DateTime.Now.Hour >= 7 || DateTime.Now.Hour < 22)
             {
                 // Solo 2 viajes gratuitos permitidos
                 Console.WriteLine("Viaje gratuito por estudiante.");
@@ -165,9 +165,24 @@ namespace TransporteUrbano
 
         public override int pagar(int costo)
         {
-            // Siempre permite el viaje sin costo
-            Console.WriteLine("Viaje gratuito.");
-            return 1;
+            if(DateTime.Now.DayOfWeek.ToString() != "Sunday" && DateTime.Now.DayOfWeek.ToString() != "Saturday" && DateTime.Now.Hour >= 7 || DateTime.Now.Hour < 22)
+            {
+                // Siempre permite el viaje sin costo
+                Console.WriteLine("Viaje gratuito.");
+                return 1;
+            }
+            else
+            {
+                if ((saldo + 1200) < costo)
+                {
+                    Console.WriteLine("No hay saldo suficiente");
+                    return 0;
+                }
+                saldo -= costo;
+                Console.WriteLine("Viaje normal, No se encuentra en tiempo de aprovechar su beneficio.");
+                acreditarCarga();
+                return 1;
+            }
         }
     }
 }
