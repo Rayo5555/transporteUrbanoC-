@@ -5,6 +5,12 @@ using TransporteUrbano;
 
 namespace TestTransporte
 {
+
+    public static class Reloj
+    {
+        public static Func<DateTime> Ahora = () => DateTime.Now;
+    }
+
     public class Tests
     {
         private TransporteUrbano.Colectivo colectivo132;
@@ -233,6 +239,7 @@ namespace TestTransporte
         [Test]
         public void PruebaTrasbordos()
         {
+            Reloj.Ahora = () => new DateTime(2025, 11, 5, 8, 0, 0);
             var tarjeta = new Tarjeta(4, 5000);
             // Realizar dos viajes con trasbordos
             var boleto1 = colectivo132.pagarCon(tarjeta);
