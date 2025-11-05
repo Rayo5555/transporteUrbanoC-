@@ -169,7 +169,7 @@ namespace TransporteUrbano
             }
             else
             {
-                if (usos < 2)
+                if (usos < 2 && Reloj().DayOfWeek.ToString() == "Sunday" && Reloj().DayOfWeek.ToString() == "Saturday" && Reloj().Hour >= 7 && Reloj().Hour < 22)
                 {
                     if ((DateTime.Now - ultimaFechaUso).TotalMinutes > 5)
                     {
@@ -232,7 +232,7 @@ namespace TransporteUrbano
             }
             else
             {
-                if (usos < 2)
+                if (usos < 2 && Reloj().DayOfWeek.ToString() == "Sunday" && Reloj().DayOfWeek.ToString() == "Saturday" && Reloj().Hour >= 7 && Reloj().Hour < 22)
                 {
                     // Solo 2 viajes gratuitos permitidos
                     Console.WriteLine("Viaje gratuito por estudiante.");
@@ -273,7 +273,11 @@ namespace TransporteUrbano
                 Console.WriteLine("Viaje gratuito.");
                 return 1;
             }
-            else
+            else if (Reloj().DayOfWeek.ToString() == "Sunday" && Reloj().DayOfWeek.ToString() == "Saturday" && Reloj().Hour >= 7 && Reloj().Hour < 22)
+            {
+                Console.WriteLine("Viaje gratuito.");
+                return 1;
+            }
             {
                 return 2;
             }
