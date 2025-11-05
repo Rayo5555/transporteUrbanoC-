@@ -22,6 +22,8 @@ namespace TestTransporte
             colectivo145_133 = new TransporteUrbano.Colectivo("145/133");
             colectivo132 = new TransporteUrbano.Colectivo("132");
 
+            Tarjeta.Reloj = () => new DateTime(2025, 11, 4, 10, 0, 0);
+
         }
 
         [Test]
@@ -45,7 +47,6 @@ namespace TestTransporte
         {
             // Crear una tarjeta de boleto gratuito estudiantil
             var tarjeta = new BoletoGratuitoEstudiantil(2, 0);
-            Tarjeta.Reloj = () => new DateTime(2025, 11, 4, 10, 0, 0);
             // Intentar pagar un boleto
             var boleto = colectivo145_133.pagarCon(tarjeta);
 
