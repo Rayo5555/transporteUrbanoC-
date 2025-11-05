@@ -59,6 +59,7 @@ namespace TransporteUrbano
         {
             if(ultimaLinea == lineaTomada || (DateTime.Now - ultimoUso).TotalMinutes > 60 || DateTime.Now.DayOfWeek.ToString() == "Sunday" || DateTime.Now.Hour < 7 || DateTime.Now.Hour >= 22 || ultimaLinea == "")
             {
+                ultimaLinea = lineaTomada;
                 ultimoUso = DateTime.Now;
                 return 0;
             }else

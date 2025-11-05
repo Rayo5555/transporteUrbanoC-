@@ -239,7 +239,7 @@ namespace TestTransporte
             Assert.IsNotNull(boleto1, "El primer boleto debería generarse correctamente.");
             Assert.AreEqual(1580, boleto1.costo, "El primer viaje debería cobrarse con el 100% del costo.");
 
-            tarjeta.ultimoUso = tarjeta.ultimoUso.AddMinutes(-5); // Simular que pasaron 5 minutos
+            tarjeta.ultimoUso = tarjeta.ultimoUso.AddMinutes(-15); // Simular que pasaron 5 minutos
 
             var boleto2 = colectivo145_133.pagarCon(tarjeta);
             Assert.IsNotNull(boleto2, "El segundo boleto debería generarse correctamente.");
