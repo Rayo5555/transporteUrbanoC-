@@ -5,6 +5,12 @@ using TransporteUrbano;
 
 namespace TestTransporte
 {
+
+    public static class Reloj
+    {
+        public static Func<DateTime> Ahora = () => DateTime.Now;
+    }
+
     public class Tests
     {
         private TransporteUrbano.Colectivo colectivo132;
@@ -69,7 +75,7 @@ namespace TestTransporte
             Assert.IsNotNull(boleto2, "El boleto debeía generarse correctamente incluso con saldo negativo.");
             Assert.AreEqual(-1000, tarjeta2.saldo, "El saldo debería permanecer en -1000 ya que el viaje es gratuito.");
         }
-      
+
         [Test]
         public void TestCargaInvalida()
         {
@@ -146,7 +152,7 @@ namespace TestTransporte
         [Test]
         public void TestBoletoGratuito_NoMasDeDosViajesGratuitosPorDia()
         {
-            var tarjeta = new BoletoGratuitoEstudiantil(1,2000);
+            var tarjeta = new BoletoGratuitoEstudiantil(1, 2000);
 
             // Primer viaje gratuito
             var boleto1 = colectivo132.pagarCon(tarjeta);
@@ -323,10 +329,30 @@ namespace TestTransporte
             tarjeta.usoFrecuente = 80;
             var boleto4 = colectivo132.pagarCon(tarjeta);
             Assert.IsNull(boleto4, "El boleto no debería generarse por saldo insuficiente.");
+        }
+        [Test]
+        public void PruebaTrasbordos()
+        {
+            var tarjeta = new Tarjeta(4, 5000);
 
+            // Configurar el reloj simulado
+            Tarjeta.Reloj = () => new DateTime(2025, 11, 4, 10, 0, 0);
+
+            // Primer viaje
+            var boleto1 = colectivo132.pagarCon(tarjeta);
+            Assert.IsNotNull(boleto1, "El primer boleto debería generarse correctamente.");
+            Assert.AreEqual(1580, boleto1.costo, "El primer viaje debería cobrarse con el 100% del costo.");
+
+            // Simular que pasaron 15 minutos
+            Tarjeta.Reloj = () => new DateTime(2025, 11, 4, 10, 15, 0);
+
+            // Segundo viaje (trasbordo)
+            var boleto2 = colectivo145_133.pagarCon(tarjeta);
+            Assert.IsNotNull(boleto2, "El segundo boleto debería generarse correctamente.");
+            Assert.AreEqual(0, boleto2.costo, "El segundo viaje no debería cobrarse.");
+            Assert.AreEqual(1, boleto2.trasbordo, "El boleto debería marcar que es un trasbordo.");
         }
     }
 
 }
-
 
