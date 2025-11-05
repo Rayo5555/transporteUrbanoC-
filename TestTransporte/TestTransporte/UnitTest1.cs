@@ -45,7 +45,7 @@ namespace TestTransporte
         {
             // Crear una tarjeta de boleto gratuito estudiantil
             var tarjeta = new BoletoGratuitoEstudiantil(2, 0);
-
+            Tarjeta.Reloj = () => new DateTime(2025, 11, 4, 10, 0, 0);
             // Intentar pagar un boleto
             var boleto = colectivo145_133.pagarCon(tarjeta);
 
@@ -111,7 +111,10 @@ namespace TestTransporte
         [Test]
         public void AcreditarSaldo2()
         {
+
+            Tarjeta.Reloj = () => new DateTime(2025, 11, 4, 10, 0, 0);
             var tarjeta = new MedioBoletoEstudiantil(4, 57000);
+
             Assert.AreEqual(56000, tarjeta.saldo, "El saldo debería ser 56000 después de la acreditación inicial.");
             Assert.AreEqual(1000, tarjeta.pendienteDeAcreditar, "El pendiente de acreditar debería ser 2000 después de la acreditación inicial.");
             var boleto = colectivo145_133.pagarCon(tarjeta);
@@ -387,6 +390,7 @@ namespace TestTransporte
             Assert.AreEqual(0, boleto2.costo, "El segundo viaje no debería cobrarse.");
             Assert.AreEqual(1, boleto2.trasbordo, "El boleto debería marcar que es un trasbordo.");
         }
+        
     }
 
 }
