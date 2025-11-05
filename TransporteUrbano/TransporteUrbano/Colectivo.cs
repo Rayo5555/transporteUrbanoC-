@@ -49,6 +49,7 @@ namespace TransporteUrbano
 
         public ColectivoInterurbano(string linea) : base(linea)
         {
+            this.linea = linea;
         }
 
         public override Boleto pagarCon(Tarjeta tarjeta)
@@ -57,7 +58,7 @@ namespace TransporteUrbano
             int saldoInicial = tarjeta.saldo;
 
             // Intentar realizar el pago usando la lógica de la tarjeta
-            int resultadoPago = tarjeta.pagar(costoBoleto);
+            int resultadoPago = tarjeta.pagar(costoBoleto, linea);
 
             if (resultadoPago == 1) // Pago exitoso
             {
@@ -79,4 +80,5 @@ namespace TransporteUrbano
             }
         }
     }
+
 }
