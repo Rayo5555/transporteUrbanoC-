@@ -252,6 +252,11 @@ namespace TestTransporte
             var boleto4 = colectivoInterurbanoA.pagarCon(tarjeta4);
             Assert.IsNotNull(boleto4, "El boleto debería generarse correctamente para el colectivo interurbano con franquicia completa.");
             Assert.AreEqual(0, boleto4.costo, "El costo del boleto interurbano con franquicia completa debería ser 0.");
+            tarjeta.saldo = 1000; // Ajustar saldo para probar falta de fondos
+            var boleto5 = colectivoInterurbanoA.pagarCon(tarjeta);
+            Assert.IsNull(boleto5, "El boleto NO debería generarse por falta de saldo.");
+            Assert.AreEqual(1000, tarjeta.saldo, "El saldo debería permanecer igual después de un intento fallido de pago.");
+
             Assert.AreEqual("ACostanera1", boleto.codigo, "El código del boleto debería ser '1321'.");
             Assert.AreEqual("ACostanera", boleto.linea, "La línea del boleto debería ser '132'.");
             Assert.AreEqual("Tarjeta", boleto.tipo, "El tipo de tarjeta debería ser 'Tarjeta'.");
