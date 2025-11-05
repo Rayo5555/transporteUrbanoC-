@@ -21,9 +21,9 @@ namespace TransporteUrbano
             int saldoInicial = tarjeta.saldo;
 
             // Intentar realizar el pago usando la lógica de la tarjeta
-            int resultadoPago = tarjeta.pagar(costoBoleto);
+            int resultadoPago = tarjeta.pagar(costoBoleto, linea);
 
-            if (resultadoPago == 1) // Pago exitoso
+            if (resultadoPago >= 1) // Pago exitoso
             {
                 boletosEntregados++;
                 string codigoBoleto = linea + boletosEntregados;
@@ -34,7 +34,7 @@ namespace TransporteUrbano
                 int costoRealBoleto = saldoInicial - saldoRestante;
                 int totalAbonado = saldoInicial >= costoRealBoleto ? costoRealBoleto : saldoInicial;
 
-                return new Boleto(codigoBoleto, saldoRestante, idTajeta, lineaBoleto, tipoTarjeta, totalAbonado, costoRealBoleto);
+                return new Boleto(codigoBoleto, saldoRestante, idTajeta, lineaBoleto, tipoTarjeta, totalAbonado, costoRealBoleto, resultadoPago);
             }
             else
             {
