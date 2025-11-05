@@ -12,6 +12,8 @@ namespace TransporteUrbano
         public DateTime ultimoUso;
         public String ultimaLinea;
 
+        public static Func<DateTime> Reloj = () => DateTime.Now;
+
         public Tarjeta(int id, int saldo = 0)
         {
             if (saldo > 56000)
@@ -57,16 +59,22 @@ namespace TransporteUrbano
         }
         public int trasbordos(String lineaTomada)
         {
-            if(ultimaLinea == lineaTomada || (DateTime.Now - ultimoUso).TotalMinutes > 60 || DateTime.Now.DayOfWeek.ToString() == "Sunday" || DateTime.Now.Hour < 7 || DateTime.Now.Hour >= 22 || ultimaLinea == "")
+            if (ultimaLinea == lineaTomada || 
+                (Reloj() - ultimoUso).TotalMinutes > 60 || 
+                Reloj().DayOfWeek.ToString() == "Sunday" || 
+                Reloj().Hour < 7 || 
+                Reloj().Hour >= 22 || 
+                ultimaLinea == "")
             {
                 ultimaLinea = lineaTomada;
-                ultimoUso = DateTime.Now;
-                return 0;
-            }else
+                ultimoUso = Reloj();
+                return 0; // No es trasbordo
+            }
+            else
             {
                 ultimaLinea = lineaTomada;
-                ultimoUso = DateTime.Now;
-                return 1;
+                ultimoUso = Reloj();
+                return 1; // Es trasbordo
             }
         }
         public virtual int pagar(int costo, String lineaTomada)
